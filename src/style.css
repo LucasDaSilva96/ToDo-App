@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.dayBackground {
+  background-image: linear-gradient(
+    to top,
+    #4926ad,
+    #4a44bd,
+    #505dca,
+    #5a74d5,
+    #6a8bde,
+    #7596df,
+    #82a1e0,
+    #8face1,
+    #96afdd,
+    #9db2d8,
+    #a4b5d4,
+    #abb8cf
+  );
+}
+
+.eveningBackground {
+  background-image: linear-gradient(
+    to top,
+    #4926ad,
+    #443eb5,
+    #4351ba,
+    #4861bc,
+    #5371bd,
+    #5372b2,
+    #5673a7,
+    #5a739c,
+    #516586,
+    #485870,
+    #404b5b,
+    #383e47
+  );
+}
+
+.nightBackground {
+  background-image: linear-gradient(
+    to top,
+    #462b90,
+    #373389,
+    #2c377f,
+    #273a74,
+    #283c68,
+    #283b5f,
+    #2a3a55,
+    #2c384c,
+    #2a3444,
+    #28303d,
+    #262c35,
+    #24282e
+  );
+}
