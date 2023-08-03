@@ -1,6 +1,7 @@
 const path = require("path");
 const json5 = require("json5");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -13,12 +14,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "ToDo-App",
     }),
+    new FaviconsWebpackPlugin("favicon.png"),
   ],
-  output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true,
-  },
 
   module: {
     rules: [
@@ -38,5 +35,10 @@ module.exports = {
         },
       },
     ],
+  },
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
 };
