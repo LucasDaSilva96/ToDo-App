@@ -1,1 +1,3 @@
-console.log("HI, INDEX.JS");
+import "./style.css";
+
+document.querySelector("body").classList.add("dayBackground");
