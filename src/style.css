@@ -347,6 +347,41 @@ input[type="checkbox"]:checked {
   gap: 50px;
 }
 
+.add-task-btn-section {
+  justify-self: center;
+}
+
+.add-task-svg-box {
+  background-image: linear-gradient(
+    to top,
+    rgba(74, 38, 173, 0.2),
+    rgba(74, 68, 189, 0.2),
+    rgba(80, 92, 202, 0.2),
+    rgba(90, 117, 213, 0.2),
+    rgba(106, 139, 222, 0.2),
+    rgba(117, 151, 223, 0.2),
+    rgba(130, 161, 224, 0.2),
+    rgba(143, 172, 225, 0.2),
+    rgba(150, 175, 221, 0.2),
+    rgba(157, 178, 216, 0.2),
+    rgba(164, 181, 212, 0.2),
+    rgba(171, 184, 207, 0.2)
+  );
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.add-task-svg {
+  fill: whitesmoke;
+  transition: all 0.5s ease-in;
+}
+
+.add-task-svg-box:active .add-task-svg {
+  transform: rotate(360deg);
+}
+
 /* Reusable classes */
 .hidden {
   display: none;
