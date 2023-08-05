@@ -7,7 +7,7 @@
 body {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .dayBackground {
@@ -495,6 +495,159 @@ input[type="checkbox"]:checked {
 .sideBar-display-tasks-box::-webkit-scrollbar {
   display: none;
 }
+
+.add-task-modal-container {
+  padding: 10px;
+  display: grid;
+  grid-template-rows: 0.4fr 0.5fr 1fr 0.5fr 2fr;
+  row-gap: 5px;
+}
+
+.add-task-modal-section {
+  position: absolute;
+  width: 100%;
+  min-height: 90vh;
+  z-index: 400;
+  top: 10px;
+  left: 0;
+  background-image: linear-gradient(
+    to top,
+    #2c73d2,
+    #2476d2,
+    #1c79d1,
+    #147bd1,
+    #0b7ed0,
+    #0082cd,
+    #0086c9,
+    #0089c4,
+    #008db9,
+    #0090a7,
+    #009091,
+    #008f7a
+  );
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 22px 70px 4px;
+}
+
+.close-modal-box {
+  margin-left: auto;
+  background-color: #ffffff3d;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 300;
+}
+
+.title-box input {
+  font-weight: bold;
+  padding: 10px;
+  width: 70%;
+  min-height: 2.5rem;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+}
+
+.message-box textarea {
+  width: 70%;
+  min-height: 5rem;
+  padding: 5px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  resize: none;
+  overflow: scroll;
+}
+
+.message-box textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.due-date-priority-box {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.priority-div {
+  align-self: flex-end;
+  display: flex;
+  gap: 10px;
+}
+
+.low-priority-div {
+  font-weight: bold;
+  padding: 5px;
+  border: solid 1.5px whitesmoke;
+  background-color: rgba(245, 245, 245, 0.3);
+  color: white;
+}
+
+.medium-priority-div {
+  font-weight: bold;
+  padding: 5px;
+  border: solid 1.5px orange;
+  background-color: rgba(255, 166, 0, 0.2);
+  color: orange;
+}
+
+.high-priority-div {
+  font-weight: bold;
+  padding: 5px;
+  border: solid 1.5px yellow;
+  background-color: rgba(255, 255, 0, 0.2);
+  color: yellow;
+}
+
+.due-date-div label {
+  font-size: 20px;
+  border-bottom: solid 1.5px whitesmoke;
+}
+
+.due-date-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.due-date-div input {
+  margin-top: 5px;
+  font-size: 18px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+
+.add-task-box {
+  align-self: end;
+  justify-self: center;
+}
+
+.modal-add-task-btn {
+  padding: 20px;
+  font-size: 22px;
+  border-radius: 10px;
+  color: white;
+  background-color: #3add60;
+  border: none;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
 /* Reusable classes */
 .hidden {
   display: none;
