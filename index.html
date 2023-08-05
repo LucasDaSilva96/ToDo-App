@@ -181,11 +181,12 @@
         <!-- ↓ End of the sideBar-section  -->
       </section>
       <!-- Start of the add-task-modal-section -->
-      <section class="add-task-modal-section">
+      <section class="add-task-modal-section hidden">
         <div class="add-task-modal-container">
           <div class="close-modal-box">
             <svg
               class="close-svg"
+              data-home="true"
               xmlns="http://www.w3.org/2000/svg"
               width="46"
               height="46"
@@ -243,9 +244,9 @@
       </section>
       <!-- Start of the calender-clock-section -->
       <!-- Start of the overlay div -->
-      <div class="overlay"></div>
+      <div class="overlay hidden"></div>
       <!--  -->
-      <section class="calender-clock-section hidden">
+      <section class="calender-clock-section">
         <!-- Start of the calender-container -->
         <div class="calender-container">
           <!-- Date box 1 -->
@@ -341,7 +342,7 @@
         <!-- ↓ End of the calender-clock-section ↓ -->
       </section>
       <!-- Start of the task-section -->
-      <section class="task-section hidden">
+      <section class="task-section">
         <!-- Task-box 1 -->
         <div class="task-box low-priority">
           <div class="task-title-div">
@@ -462,7 +463,7 @@
       </section>
 
       <!-- Start of the add-task-btn-section -->
-      <section class="add-task-btn-section hidden">
+      <section class="add-task-btn-section">
         <div class="add-task-svg-box">
           <svg
             class="add-task-svg"
