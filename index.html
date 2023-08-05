@@ -180,8 +180,72 @@
         </div>
         <!-- ↓ End of the sideBar-section  -->
       </section>
+      <!-- Start of the add-task-modal-section -->
+      <section class="add-task-modal-section">
+        <div class="add-task-modal-container">
+          <div class="close-modal-box">
+            <svg
+              class="close-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              width="46"
+              height="46"
+              fill="#000000"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+              ></path>
+            </svg>
+          </div>
+          <!--  -->
+          <div class="title-box">
+            <input type="text" required placeholder="Title" />
+          </div>
+          <!--  -->
+          <div class="message-box">
+            <textarea
+              id="message"
+              rows="5"
+              cols="30"
+              placeholder="Message"
+            ></textarea>
+          </div>
+          <!--  -->
+          <div class="due-date-priority-box">
+            <div class="due-date-div">
+              <label for="calender">Due Date</label>
+              <input
+                type="date"
+                id="calender"
+                name="due-date"
+                value="2023-08-05"
+              />
+            </div>
+            <div class="priority-div">
+              <div class="low-priority-div">
+                <p>Low</p>
+              </div>
+              <div class="medium-priority-div">
+                <p>Medium</p>
+              </div>
+              <div class="high-priority-div">
+                <p>High</p>
+              </div>
+            </div>
+          </div>
+          <!--  -->
+          <div class="add-task-box">
+            <button class="modal-add-task-btn">Add Task</button>
+          </div>
+          <!--  -->
+        </div>
+        <!-- ↓ End of the add-task-modal-section ↓ -->
+      </section>
       <!-- Start of the calender-clock-section -->
-      <section class="calender-clock-section">
+      <!-- Start of the overlay div -->
+      <div class="overlay"></div>
+      <!--  -->
+      <section class="calender-clock-section hidden">
         <!-- Start of the calender-container -->
         <div class="calender-container">
           <!-- Date box 1 -->
@@ -277,7 +341,7 @@
         <!-- ↓ End of the calender-clock-section ↓ -->
       </section>
       <!-- Start of the task-section -->
-      <section class="task-section">
+      <section class="task-section hidden">
         <!-- Task-box 1 -->
         <div class="task-box low-priority">
           <div class="task-title-div">
@@ -398,7 +462,7 @@
       </section>
 
       <!-- Start of the add-task-btn-section -->
-      <section class="add-task-btn-section">
+      <section class="add-task-btn-section hidden">
         <div class="add-task-svg-box">
           <svg
             class="add-task-svg"
