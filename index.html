@@ -112,31 +112,51 @@
                 <p>3</p>
               </div>
             </div>
+            <!--  -->
+          </div>
+          <!--  -->
+          <div class="sideBar-add-task-btn-box">
+            <button class="sideBar-add-task-btn">New Task</button>
           </div>
           <!--  -->
           <div class="sideBar-projects-container">
             <h2>Projects</h2>
-
-            <!-- Project-box  -->
-            <div class="project-box">
-              <h4>Gym</h4>
-              <div class="task-nr-div">
-                <p>1</p>
+            <div class="projects-list-box">
+              <!-- Project-box  -->
+              <div class="project-box">
+                <h4>Gym</h4>
+                <div class="task-nr-div">
+                  <p>1</p>
+                </div>
+              </div>
+              <!--  -->
+              <div class="project-box">
+                <h4>Study</h4>
+                <div class="task-nr-div">
+                  <p>2</p>
+                </div>
+              </div>
+              <!--  -->
+              <div class="project-box">
+                <h4>Work</h4>
+                <div class="task-nr-div">
+                  <p>1</p>
+                </div>
               </div>
             </div>
-            <!--  -->
-            <div class="project-box">
-              <h4>Study</h4>
-              <div class="task-nr-div">
-                <p>2</p>
-              </div>
-            </div>
-            <!--  -->
-            <div class="project-box">
-              <h4>Work</h4>
-              <div class="task-nr-div">
-                <p>1</p>
-              </div>
+            <div class="add-project-svg-box">
+              <svg
+                class="add-project-svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="36"
+                height="36"
+                fill="#000000"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                ></path>
+              </svg>
             </div>
             <!--  -->
           </div>
@@ -233,6 +253,15 @@
                 <p>High</p>
               </div>
             </div>
+          </div>
+          <!--  -->
+          <div class="select-project-div">
+            <select name="project-selection" id="project-selection">
+              <option class="hidden" selected disabled>Select Project</option>
+              <option value="Gym">Gym</option>
+              <option value="Study">Study</option>
+              <option value="Work">Work</option>
+            </select>
           </div>
           <!--  -->
           <div class="add-task-box">
