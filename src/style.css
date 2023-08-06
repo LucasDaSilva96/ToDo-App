@@ -786,7 +786,22 @@ input[type="checkbox"]:checked {
 .task-detail-priority-div h2,
 .task-detail-due-div h2 {
   color: rgba(245, 245, 245, 0.781);
-  border-bottom: solid 1.5px #00000093;
+}
+
+.task-detail-title-div,
+.task-detail-project-div,
+.task-detail-priority-div,
+.task-detail-due-div {
+  max-height: 5rem;
+  border-bottom: solid 1.5px #0000002c;
+  overflow: scroll;
+}
+
+.task-detail-title-div::-webkit-scrollbar,
+.task-detail-project-div::-webkit-scrollbar,
+.task-detail-priority-div::-webkit-scrollbar,
+.task-detail-due-div::-webkit-scrollbar {
+  display: none;
 }
 
 .task-detail-title-div p,
@@ -805,8 +820,10 @@ input[type="checkbox"]:checked {
 }
 
 .task-detail-message-box {
-  border: #000 1px solid;
-  height: 100%;
+  border: #00000038 1px solid;
+  background-color: #ffffff48;
+  min-height: 5rem;
+  max-height: 10rem;
   width: 100%;
   border-radius: 10px;
   padding: 5px;
@@ -820,6 +837,26 @@ input[type="checkbox"]:checked {
 
 .task-detail-message-box::-webkit-scrollbar {
   display: none;
+}
+
+.task-detail-edit-btn-div {
+  align-self: center;
+  justify-self: center;
+}
+
+.edit-task-btn {
+  padding: 10px;
+  width: 7rem;
+  height: 3rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: #000;
+  color: whitesmoke;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
 /* Reusable classes */
