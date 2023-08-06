@@ -723,6 +723,105 @@ input[type="checkbox"]:checked {
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
+.task-detail-modal-section {
+  padding: 10px;
+  position: absolute;
+  width: 100%;
+  min-height: 95vh;
+  z-index: 500;
+  top: 10px;
+  left: 0;
+  background-image: linear-gradient(
+    to top,
+    #2c73d2,
+    #2476d2,
+    #1c79d1,
+    #147bd1,
+    #0b7ed0,
+    #0082cd,
+    #0086c9,
+    #0089c4,
+    #008db9,
+    #0090a7,
+    #009091,
+    #008f7a
+  );
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 22px 70px 4px;
+  display: grid;
+  grid-template-rows: 0.3fr 1.5fr 0.5fr;
+  row-gap: 10px;
+}
+
+.close-detail-modal-box {
+  margin-left: auto;
+}
+
+.close-detail-svg {
+  background-color: rgba(245, 245, 245, 0.192);
+  border-radius: 10px;
+}
+
+.task-detail-modal-container {
+  display: grid;
+  grid-template-rows: 0.3fr 0.3fr 0.3fr 0.3fr 1fr;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.task-detail-title-div,
+.task-detail-project-div,
+.task-detail-priority-div,
+.task-detail-due-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-detail-title-div h2,
+.task-detail-project-div h2,
+.task-detail-priority-div h2,
+.task-detail-due-div h2 {
+  color: rgba(245, 245, 245, 0.781);
+  border-bottom: solid 1.5px #00000093;
+}
+
+.task-detail-title-div p,
+.task-detail-project-div p,
+.task-detail-priority-div p,
+.task-detail-due-div p {
+  font-size: 24px;
+}
+
+.task-detail-message-div {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.task-detail-message-box {
+  border: #000 1px solid;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  padding: 5px;
+  overflow: scroll;
+}
+
+.task-detail-message-div h2 {
+  color: rgba(245, 245, 245, 0.781);
+  border-bottom: solid 1.5px #00000093;
+}
+
+.task-detail-message-box::-webkit-scrollbar {
+  display: none;
+}
+
 /* Reusable classes */
 .hidden {
   display: none;
