@@ -413,9 +413,20 @@ input[type="checkbox"]:checked {
 .sideBar-headings-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-left: 5px;
   color: rgba(245, 245, 245, 0.788);
+}
+.sideBar-home-div,
+.sideBar-today-div,
+.sideBar-week-div,
+.sideBar-month-div,
+.project-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  font-size: 20px;
 }
 
 .sideBar-home-div h2,
@@ -428,17 +439,6 @@ input[type="checkbox"]:checked {
   font-size: 24px;
   margin-bottom: 10px;
   width: 85px;
-}
-
-.sideBar-home-div,
-.sideBar-today-div,
-.sideBar-week-div,
-.sideBar-month-div,
-.project-box {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 5px;
 }
 
 .task-nr-div {
@@ -481,6 +481,8 @@ input[type="checkbox"]:checked {
 
 .sideBar-display-tasks-heading-div h2 {
   text-align: center;
+  padding: 10px 10px 0px 10px;
+  border-bottom: 1.5px solid whitesmoke;
 }
 
 .sideBar-display-tasks-box {
@@ -496,17 +498,74 @@ input[type="checkbox"]:checked {
   display: none;
 }
 
+.sideBar-add-task-btn {
+  background-color: #00c0a33f;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: whitesmoke;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: rgba(255, 255, 255, 0.76) 0px 1px 1px 0px inset,
+    rgba(58, 58, 223, 0.897) 0px 50px 100px -20px,
+    rgb(0, 0, 0) 0px 50px 100px -30px;
+}
+
+.projects-list-box {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 6rem;
+}
+
+.projects-list-box::-webkit-scrollbar {
+  display: none;
+}
+
+.sideBar-projects-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-project-svg {
+  margin-top: 10px;
+
+  background-image: linear-gradient(
+    to right top,
+    rgb(132, 94, 194, 0.5),
+    rgb(67, 114, 203, 0.5),
+    rgb(0, 127, 194, 0.5),
+    rgb(0, 134, 174, 0.5),
+    rgb(0, 137, 151, 0.5),
+    rgb(0, 142, 145, 0.5),
+    rgb(0, 146, 136, 0.5),
+    rgb(1, 150, 123, 0.5),
+    rgb(1, 160, 133, 0.5),
+    rgb(2, 171, 143, 0.5),
+    rgb(1, 181, 153, 0.5),
+    rgba(0, 192, 163, 0.5)
+  );
+  border-radius: 5px;
+  padding: 5px;
+  fill: whitesmoke;
+}
+
+.add-project-svg-box {
+  margin-left: 10px;
+  display: flex;
+  justify-content: start;
+}
+
 .add-task-modal-container {
   padding: 10px;
   display: grid;
-  grid-template-rows: 0.4fr 0.5fr 1fr 0.5fr 2fr;
+  grid-template-rows: 0.4fr 0.5fr 1fr 0.5fr 0.5fr 2fr;
   row-gap: 5px;
 }
 
 .add-task-modal-section {
   position: absolute;
   width: 100%;
-  min-height: 90vh;
+  min-height: 95vh;
   z-index: 400;
   top: 10px;
   left: 0;
@@ -629,6 +688,22 @@ input[type="checkbox"]:checked {
   border-radius: 5px;
   outline: none;
   border: none;
+}
+
+.select-project-div {
+  align-self: end;
+}
+
+.select-project-div select {
+  background-color: #00000017;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .add-task-box {
