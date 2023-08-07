@@ -5,6 +5,7 @@ import { openAddTaskModalHome } from "./add-task-modal.js";
 import { clockFunction } from "./clock.js";
 import { greetingFunction } from "./greeting.js";
 import { getUserLocation } from "./weather.js";
+import { getCalenderDates } from "./date.js";
 
 menuSlider();
 closeAddTaskModal();
@@ -24,3 +25,5 @@ getUserLocation();
 setInterval(function () {
   greetingFunction();
 }, 600000);
+
+getCalenderDates();
