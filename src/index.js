@@ -4,7 +4,7 @@ import { closeAddTaskModal } from "./add-task-modal.js";
 import { openAddTaskModalHome } from "./add-task-modal.js";
 import { clockFunction } from "./clock.js";
 import { greetingFunction } from "./greeting.js";
-document.querySelector("body").classList.add("dayBackground");
+import { getUserLocation } from "./weather.js";
 
 menuSlider();
 closeAddTaskModal();
@@ -17,3 +17,10 @@ setInterval(function () {
 // *********
 
 greetingFunction();
+getUserLocation();
+//change background of the html-body
+// depending on the current time. Run this every 10min / 600 000 ms
+
+setInterval(function () {
+  greetingFunction();
+}, 600000);
