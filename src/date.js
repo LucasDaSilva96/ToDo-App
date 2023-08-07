@@ -79,6 +79,6 @@ function getDayNr(date) {
 function changeDateFormat(date) {
   let dateString = `${date}`;
   let dateStringArray = dateString.split(" ");
-  let result = `${dateStringArray[3]}|${dateStringArray[1]}|${dateStringArray[2]}`;
+  let result = `${dateStringArray[2]}|${dateStringArray[1]}|${dateStringArray[3]}`;
   return result;
 }
