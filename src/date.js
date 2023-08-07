@@ -21,7 +21,7 @@ const day_6_nr = document.querySelector(".day-6-nr");
 
 const currentDateDiv = document.querySelector(".current-date");
 
-export function getCalenderDates() {
+export function setCalenderDates() {
   const day_0 = getNextDays(0);
   const day_1 = getNextDays(1);
   const day_2 = getNextDays(2);
