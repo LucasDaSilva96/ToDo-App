@@ -11,57 +11,73 @@ body {
 }
 
 .dayBackground {
-  background-image: linear-gradient(
-    to top,
-    #4926ad,
-    #4a44bd,
-    #505dca,
-    #5a74d5,
-    #6a8bde,
-    #7596df,
-    #82a1e0,
-    #8face1,
-    #96afdd,
-    #9db2d8,
-    #a4b5d4,
-    #abb8cf
-  );
+  background-image: url("https://images.pexels.com/photos/896673/pexels-photo-896673.jpeg");
+  background-size: cover;
+  -webkit-animation: slidein 100s;
+  animation: slidein 100s;
+
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
+
+@-webkit-keyframes slidein {
+  from {
+    background-position: top;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -100px 0px;
+    background-size: 2750px;
+  }
+}
+
+@keyframes slidein {
+  from {
+    background-position: top;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -100px 0px;
+    background-size: 2750px;
+  }
 }
 
 .eveningBackground {
-  background-image: linear-gradient(
-    to top,
-    #312f36c5,
-    #443eb5,
-    #51556d,
-    #4861bce3,
-    #5371bd,
-    #5372b2,
-    #5673a7,
-    #5a739cd2,
-    #516586,
-    #485870c9,
-    #404b5bd5,
-    #3a3a6b
-  );
+  background-image: url("https://static.pexels.com/photos/414171/pexels-photo-414171.jpeg");
+  background-size: cover;
+  -webkit-animation: slidein 100s;
+  animation: slidein 100s;
+
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
 }
 
 .nightBackground {
-  background-image: linear-gradient(
-    to top,
-    #462b90,
-    #373389,
-    #2c377f,
-    #273a74,
-    #283c68,
-    #283b5f,
-    #2a3a55,
-    #2c384c,
-    #2a3444,
-    #28303d,
-    #262c35,
-    #24282e
-  );
+  background-image: url("https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg");
+  background-size: cover;
+  -webkit-animation: slidein 100s;
+  animation: slidein 100s;
+
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
 }
 
 .main-container {
@@ -367,18 +383,18 @@ input[type="checkbox"]:checked {
 .add-task-svg-box {
   background-image: linear-gradient(
     to top,
-    rgba(74, 38, 173, 0.2),
-    rgba(74, 68, 189, 0.2),
-    rgba(80, 92, 202, 0.2),
-    rgba(90, 117, 213, 0.2),
-    rgba(106, 139, 222, 0.2),
-    rgba(117, 151, 223, 0.2),
-    rgba(130, 161, 224, 0.2),
-    rgba(143, 172, 225, 0.2),
-    rgba(150, 175, 221, 0.2),
-    rgba(157, 178, 216, 0.2),
-    rgba(164, 181, 212, 0.2),
-    rgba(171, 184, 207, 0.2)
+    rgba(74, 38, 173, 0.7),
+    rgba(74, 68, 189, 0.7),
+    rgba(80, 92, 202, 0.7),
+    rgba(90, 117, 213, 0.7),
+    rgba(106, 139, 222, 0.7),
+    rgba(117, 151, 223, 0.7),
+    rgba(130, 161, 224, 0.7),
+    rgba(143, 172, 225, 0.7),
+    rgba(150, 175, 221, 0.7),
+    rgba(157, 178, 216, 0.7),
+    rgba(164, 181, 212, 0.7),
+    rgba(171, 184, 207, 0.7)
   );
   padding: 5px;
   border-radius: 10px;
@@ -398,14 +414,7 @@ input[type="checkbox"]:checked {
   height: 89%;
   position: absolute;
   margin-top: 80px;
-  background-image: linear-gradient(
-    to left,
-    #4377b3,
-    #2f6cb7,
-    #1f5fb9,
-    #1952ba,
-    #2243b8
-  );
+  background-color: #b8a99a;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -504,7 +513,7 @@ input[type="checkbox"]:checked {
 }
 
 .sideBar-add-task-btn {
-  background-color: #00c0a33f;
+  background-color: #00c0a3;
   border: none;
   border-radius: 10px;
   padding: 10px;
@@ -536,18 +545,18 @@ input[type="checkbox"]:checked {
 
   background-image: linear-gradient(
     to right top,
-    rgb(132, 94, 194, 0.5),
-    rgb(67, 114, 203, 0.5),
-    rgb(0, 127, 194, 0.5),
-    rgb(0, 134, 174, 0.5),
-    rgb(0, 137, 151, 0.5),
-    rgb(0, 142, 145, 0.5),
-    rgb(0, 146, 136, 0.5),
-    rgb(1, 150, 123, 0.5),
-    rgb(1, 160, 133, 0.5),
-    rgb(2, 171, 143, 0.5),
-    rgb(1, 181, 153, 0.5),
-    rgba(0, 192, 163, 0.5)
+    rgb(132, 94, 194, 0.8),
+    rgb(67, 114, 203, 0.8),
+    rgb(0, 127, 194, 0.8),
+    rgb(0, 134, 174, 0.8),
+    rgb(0, 137, 151, 0.8),
+    rgb(0, 142, 145, 0.8),
+    rgb(0, 146, 136, 0.8),
+    rgb(1, 150, 123, 0.8),
+    rgb(1, 160, 133, 0.8),
+    rgb(2, 171, 143, 0.8),
+    rgb(1, 181, 153, 0.8),
+    rgba(0, 192, 163, 0.8)
   );
   border-radius: 5px;
   padding: 5px;
@@ -871,17 +880,17 @@ input[type="checkbox"]:checked {
 
 .high-priority {
   border-left: 10px solid yellow;
-  background-color: rgba(255, 255, 0, 0.8);
+  background-color: #ac8b67d0;
 }
 
 .medium-priority {
   border-left: 10px solid orange;
-  background-color: rgba(255, 166, 0, 0.8);
+  background-color: #ac8b67d0;
 }
 
 .low-priority {
   border-left: 10px solid whitesmoke;
-  background-color: rgba(245, 245, 245, 0.9);
+  background-color: #ac8b67d0;
 }
 
 .task-done {
