@@ -42,15 +42,20 @@ export function openAddTaskModalSideBar() {
 const openProjectInputBtn = document.querySelector(".add-project-svg");
 const projectInputContainer = document.querySelector(".project-input-div");
 const cancelAddProjectBtn = document.querySelector(".cancel");
+const projectInputField = document.getElementById("project-input");
 
 export function showAddProjectInput() {
   openProjectInputBtn.addEventListener("click", function () {
     projectInputContainer.classList.remove("hidden");
     openProjectInputBtn.classList.add("hidden");
+    projectInputField.textContent = "";
+    projectInputField.value = "";
   });
 
   cancelAddProjectBtn.addEventListener("click", function () {
     projectInputContainer.classList.add("hidden");
     openProjectInputBtn.classList.remove("hidden");
+    projectInputField.textContent = "";
+    projectInputField.value = "";
   });
 }
