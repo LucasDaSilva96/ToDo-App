@@ -6,10 +6,12 @@ import { clockFunction } from "./clock.js";
 import { greetingFunction } from "./greeting.js";
 import { getUserLocation } from "./weather.js";
 import { setCalenderDates } from "./date.js";
+import { openAddTaskModalSideBar } from "./add-task-modal.js";
 
 menuSlider();
 closeAddTaskModal();
 openAddTaskModalHome();
+openAddTaskModalSideBar();
 // Clock-function ↓
 clockFunction();
 setInterval(function () {
