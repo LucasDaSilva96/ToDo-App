@@ -7,6 +7,11 @@ const closeModalSvg = document.querySelector(".close-svg");
 export function menuSlider() {
   menuBtn.addEventListener("click", function () {
     sideBarSection.classList.toggle("slide-sideBar");
-    closeModalSvg.dataset.home = "false";
+
+    if (sideBarSection.classList.contains("slide-sideBar")) {
+      closeModalSvg.dataset.navigation = "sideBar";
+    } else {
+      closeModalSvg.dataset.navigation = "home";
+    }
   });
 }
