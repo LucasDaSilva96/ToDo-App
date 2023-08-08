@@ -38,3 +38,19 @@ export function openAddTaskModalSideBar() {
     addTaskModalSection.classList.remove("hidden");
   });
 }
+
+const openProjectInputBtn = document.querySelector(".add-project-svg");
+const projectInputContainer = document.querySelector(".project-input-div");
+const cancelAddProjectBtn = document.querySelector(".cancel");
+
+export function showAddProjectInput() {
+  openProjectInputBtn.addEventListener("click", function () {
+    projectInputContainer.classList.remove("hidden");
+    openProjectInputBtn.classList.add("hidden");
+  });
+
+  cancelAddProjectBtn.addEventListener("click", function () {
+    projectInputContainer.classList.add("hidden");
+    openProjectInputBtn.classList.remove("hidden");
+  });
+}
