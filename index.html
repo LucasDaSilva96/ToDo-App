@@ -100,18 +100,20 @@
             </div>
             <div class="sideBar-today-div">
               <h4>Today</h4>
-              <div class="task-nr-div"><p>1</p></div>
+              <div class="task-nr-div">
+                <p class="today-task-notis-nr"></p>
+              </div>
             </div>
             <div class="sideBar-week-div">
               <h4>Week</h4>
               <div class="task-nr-div">
-                <p>2</p>
+                <p class="week-task-notis-nr"></p>
               </div>
             </div>
             <div class="sideBar-month-div">
               <h4>Month</h4>
               <div class="task-nr-div">
-                <p>3</p>
+                <p class="month-task-notis-nr"></p>
               </div>
             </div>
             <!--  -->
@@ -125,30 +127,17 @@
             <h2>Projects</h2>
             <div class="projects-list-box">
               <!-- Project-box  -->
-              <div class="project-box">
+              <!-- <div class="project-box">
                 <h4>Gym</h4>
                 <div class="task-nr-div">
                   <p>1</p>
                 </div>
-              </div>
+              </div> -->
               <!--  -->
-              <div class="project-box">
-                <h4>Study</h4>
-                <div class="task-nr-div">
-                  <p>2</p>
-                </div>
-              </div>
-              <!--  -->
-              <div class="project-box">
-                <h4>Work</h4>
-                <div class="task-nr-div">
-                  <p>1</p>
-                </div>
-              </div>
             </div>
             <div class="add-project-svg-box">
               <svg
-                class="add-project-svg"
+                class="add-project-svg hidden"
                 xmlns="http://www.w3.org/2000/svg"
                 width="36"
                 height="36"
@@ -159,6 +148,14 @@
                   d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
                 ></path>
               </svg>
+
+              <div class="project-input-div">
+                <input type="text" required id="project-input" />
+                <div class="add-projects-buttons-div">
+                  <button class="add">ADD</button>
+                  <button class="cancel">Cancel</button>
+                </div>
+              </div>
             </div>
             <!--  -->
           </div>
@@ -175,16 +172,16 @@
           </div>
           <div class="sideBar-display-tasks-box">
             <!-- Task-box 1 -->
-            <div class="task-box side-bar-task low-priority">
+            <!-- <div class="task-box side-bar-task low-priority">
               <div class="task-title-div">
                 <h3>Task 1</h3>
-              </div>
-              <!--  -->
-              <div class="task-msg-div">
+              </div> -->
+            <!--  -->
+            <!-- <div class="task-msg-div">
                 <p>Here we will have some message</p>
-              </div>
-              <!--  -->
-              <div class="task-opt-container">
+              </div> -->
+            <!--  -->
+            <!-- <div class="task-opt-container">
                 <div class="done-box">
                   <input class="task-done" type="checkbox" />
                 </div>
@@ -195,8 +192,10 @@
                   <input class="remove-task" type="checkbox" />
                 </div>
               </div>
-              <!-- ↓ End of Task-box 1 ↓  -->
-            </div>
+              
+            </div> -->
+
+            <!--  -->
           </div>
           <!-- ↓ End of the sideBar-display-tasks-container ↓  -->
         </div>
@@ -208,7 +207,7 @@
           <div class="close-modal-box">
             <svg
               class="close-svg"
-              data-home="true"
+              data-navigation="home"
               xmlns="http://www.w3.org/2000/svg"
               width="46"
               height="46"
@@ -260,9 +259,11 @@
           <div class="select-project-div">
             <select name="project-selection" id="project-selection">
               <option class="hidden" selected disabled>Select Project</option>
-              <option value="Gym">Gym</option>
+              <!-- DOM -JS -->
+              <!-- <option value="Gym">Gym</option>
               <option value="Study">Study</option>
-              <option value="Work">Work</option>
+              <option value="Work">Work</option> -->
+              <!--  -->
             </select>
           </div>
           <!--  -->
@@ -424,16 +425,16 @@
       <!-- Start of the task-section -->
       <section class="task-section">
         <!-- Task-box 1 -->
-        <div class="task-box low-priority">
+        <!-- <div class="task-box low-priority">
           <div class="task-title-div">
             <h3>Task 1</h3>
-          </div>
-          <!--  -->
-          <div class="task-msg-div">
+          </div> -->
+        <!--  -->
+        <!-- <div class="task-msg-div">
             <p>Here we will have some message</p>
-          </div>
-          <!--  -->
-          <div class="task-opt-container">
+          </div> -->
+        <!--  -->
+        <!-- <div class="task-opt-container">
             <div class="done-box">
               <input class="task-done" type="checkbox" />
             </div>
@@ -443,102 +444,8 @@
             <div class="remove-box">
               <input class="remove-task" type="checkbox" />
             </div>
-          </div>
-          <!-- ↓ End of Task-box 1 ↓  -->
-        </div>
-        <!-- Task-box 2 -->
-        <div class="task-box medium-priority">
-          <div class="task-title-div">
-            <h3>Task 1</h3>
-          </div>
-          <!--  -->
-          <div class="task-msg-div">
-            <p>Here we will have some message</p>
-          </div>
-          <!--  -->
-          <div class="task-opt-container">
-            <div class="done-box">
-              <input class="task-done" type="checkbox" />
-            </div>
-            <div class="edit-box">
-              <input class="edit-task" type="checkbox" />
-            </div>
-            <div class="remove-box">
-              <input class="remove-task" type="checkbox" />
-            </div>
-          </div>
-          <!-- ↓ End of Task-box 2 ↓  -->
-        </div>
-        <!-- Task-box 3 -->
-        <div class="task-box high-priority">
-          <div class="task-title-div">
-            <h3>Task 1</h3>
-          </div>
-          <!--  -->
-          <div class="task-msg-div">
-            <p>Here we will have some message</p>
-          </div>
-          <!--  -->
-          <div class="task-opt-container">
-            <div class="done-box">
-              <input class="task-done" type="checkbox" />
-            </div>
-            <div class="edit-box">
-              <input class="edit-task" type="checkbox" />
-            </div>
-            <div class="remove-box">
-              <input class="remove-task" type="checkbox" />
-            </div>
-          </div>
-          <!-- ↓ End of Task-box 3 ↓  -->
-        </div>
-        <!-- Task-box 4 -->
-        <div class="task-box medium-priority task-done">
-          <div class="task-title-div">
-            <h3>Task 1</h3>
-          </div>
-          <!--  -->
-          <div class="task-msg-div">
-            <p>Here we will have some message</p>
-          </div>
-          <!--  -->
-          <div class="task-opt-container">
-            <div class="done-box">
-              <input class="task-done" type="checkbox" />
-            </div>
-            <div class="edit-box">
-              <input class="edit-task" type="checkbox" />
-            </div>
-            <div class="remove-box">
-              <input class="remove-task" type="checkbox" />
-            </div>
-          </div>
-          <!-- ↓ End of Task-box 4 ↓  -->
-        </div>
-        <!-- Task-box 5 -->
-        <div class="task-box high-priority">
-          <div class="task-title-div">
-            <h3>Task 1</h3>
-          </div>
-          <!--  -->
-          <div class="task-msg-div">
-            <p>Here we will have some message</p>
-          </div>
-          <!--  -->
-          <div class="task-opt-container">
-            <div class="done-box">
-              <input class="task-done" type="checkbox" />
-            </div>
-            <div class="edit-box">
-              <input class="edit-task" type="checkbox" />
-            </div>
-            <div class="remove-box">
-              <input class="remove-task" type="checkbox" />
-            </div>
-          </div>
-          <!-- ↓ End of Task-box 5 ↓  -->
-        </div>
-        <!--   -->
+          </div> -->
+        <!-- </div> -->
         <!-- ↓ End of the task-section ↓ -->
       </section>
 
