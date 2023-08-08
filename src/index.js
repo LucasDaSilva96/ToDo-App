@@ -8,6 +8,7 @@ import { getUserLocation } from "./weather.js";
 import { setCalenderDates } from "./date.js";
 import { openAddTaskModalSideBar } from "./add-task-modal.js";
 import { showAddProjectInput } from "./add-task-modal.js";
+import { projectInputListener } from "./storage.js";
 
 menuSlider();
 closeAddTaskModal();
@@ -32,3 +33,5 @@ setInterval(function () {
 setCalenderDates();
 
 showAddProjectInput();
+
+projectInputListener();
