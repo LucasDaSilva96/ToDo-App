@@ -7,6 +7,7 @@ import { greetingFunction } from "./greeting.js";
 import { getUserLocation } from "./weather.js";
 import { setCalenderDates } from "./date.js";
 import { openAddTaskModalSideBar } from "./add-task-modal.js";
+import { showAddProjectInput } from "./add-task-modal.js";
 
 menuSlider();
 closeAddTaskModal();
@@ -29,3 +30,5 @@ setInterval(function () {
 }, 600000);
 
 setCalenderDates();
+
+showAddProjectInput();
