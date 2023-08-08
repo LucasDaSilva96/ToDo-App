@@ -564,9 +564,50 @@ input[type="checkbox"]:checked {
 }
 
 .add-project-svg-box {
-  margin-left: 10px;
   display: flex;
   justify-content: start;
+}
+
+.add-project-svg {
+  margin-left: 10px;
+}
+
+.project-input-div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#project-input {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 3px;
+  max-width: 7rem;
+}
+
+.add-projects-buttons-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.add {
+  padding: 5px;
+  width: 3rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #008f7a;
+  color: whitesmoke;
+}
+
+.cancel {
+  padding: 5px;
+  width: 3.5rem;
+  border: none;
+  border-radius: 5px;
+  color: whitesmoke;
+  background-color: red;
 }
 
 .add-task-modal-container {
