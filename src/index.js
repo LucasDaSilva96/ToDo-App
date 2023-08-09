@@ -9,6 +9,8 @@ import { setCalenderDates } from "./date.js";
 import { openAddTaskModalSideBar } from "./add-task-modal.js";
 import { showAddProjectInput } from "./add-task-modal.js";
 import { projectInputListener } from "./storage.js";
+import { setLocalStorage } from "./storage.js";
+// ******
 
 menuSlider();
 closeAddTaskModal();
@@ -35,3 +37,7 @@ setCalenderDates();
 showAddProjectInput();
 
 projectInputListener();
+
+// *****
+
+window.addEventListener("DOMContentLoaded", setLocalStorage());
