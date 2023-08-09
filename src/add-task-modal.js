@@ -2,6 +2,8 @@ const addTaskModalSection = document.querySelector(".add-task-modal-section");
 const overlay = document.querySelector(".overlay");
 const closeModalSvg = document.querySelector(".close-svg");
 const sideBarSection = document.querySelector(".sideBar-section");
+import { projectsExist } from "./classes.js";
+import { renderProjectSelections } from "./storage.js";
 
 export function closeAddTaskModal() {
   closeModalSvg.addEventListener("click", function () {
@@ -23,9 +25,15 @@ const addTaskHomeBtn = document.querySelector(".add-task-svg-box");
 
 export function openAddTaskModalHome() {
   addTaskHomeBtn.addEventListener("click", function () {
-    closeModalSvg.dataset.navigation = "home";
-    overlay.classList.remove("hidden");
-    addTaskModalSection.classList.remove("hidden");
+    if (projectsExist()) {
+      renderProjectSelections();
+      closeModalSvg.dataset.navigation = "home";
+      overlay.classList.remove("hidden");
+      addTaskModalSection.classList.remove("hidden");
+    } else {
+      window.alert("You need to create a project first");
+      return;
+    }
   });
 }
 
@@ -33,9 +41,15 @@ const addTaskSideBarBtn = document.querySelector(".sideBar-add-task-btn");
 
 export function openAddTaskModalSideBar() {
   addTaskSideBarBtn.addEventListener("click", function () {
-    closeModalSvg.dataset.navigation = "sideBar";
-    overlay.classList.remove("hidden");
-    addTaskModalSection.classList.remove("hidden");
+    if (projectsExist()) {
+      renderProjectSelections();
+      closeModalSvg.dataset.navigation = "sideBar";
+      overlay.classList.remove("hidden");
+      addTaskModalSection.classList.remove("hidden");
+    } else {
+      window.alert("You need to create a project first");
+      return;
+    }
   });
 }
 
