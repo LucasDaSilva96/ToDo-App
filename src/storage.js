@@ -1,9 +1,12 @@
+import { PROJECT } from "./classes.js";
+
 const addProjectBtn = document.querySelector(".add");
 const projectInputField = document.getElementById("project-input");
 const projectsListContainer = document.querySelector(".projects-list-box");
 const projectInputContainer = document.querySelector(".project-input-div");
 const openProjectInputBtn = document.querySelector(".add-project-svg");
 let projectName = undefined;
+let projectObj;
 
 export function projectInputListener() {
   projectInputField.addEventListener("input", function () {
@@ -22,9 +25,11 @@ export function projectInputListener() {
       </div>
       
       `;
-
+      projectObj = new PROJECT(projectName);
+      projectObj.saveToLocalStorage();
       projectInputContainer.classList.add("hidden");
       openProjectInputBtn.classList.remove("hidden");
+
       projectName = undefined;
     } else {
       console.log("false");
@@ -33,3 +38,5 @@ export function projectInputListener() {
     }
   });
 }
+
+// Task Class
