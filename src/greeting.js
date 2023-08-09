@@ -42,7 +42,7 @@ export function greetingFunction() {
   } else {
     HtmlBody.className = "nightBackground";
     greetingTxt.textContent = "Good Night";
-    greetingTxt.style.backGroundColor = "#FFF";
+    greetingTxt.style.color = "#FFF";
 
     weatherSvgBox.innerHTML = `
     <svg
