@@ -220,6 +220,11 @@ body {
   text-align: center;
 }
 
+[data-clicked="true"] {
+  background-color: #384672;
+  border: 2px solid whitesmoke;
+}
+
 .day-div p,
 .day-date-div p {
   font-size: 18px;
@@ -263,6 +268,10 @@ body {
 }
 
 .task-title-div h3 {
+  text-align: center;
+}
+
+.task-title-div h6 {
   text-align: center;
 }
 
