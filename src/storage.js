@@ -71,7 +71,7 @@ export function setLocalStorage() {
       {
         project_name: "General",
         project_notis: null,
-        project_task: [],
+        project_tasks: [],
       },
     ],
   };
