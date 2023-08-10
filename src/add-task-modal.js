@@ -197,3 +197,56 @@ function checkForTitleDuplicate(title, projectName) {
     return false;
   }
 }
+
+const taskSectionHomePage = document.querySelector(".task-section");
+
+export function renderTaskHomePage(date) {
+  const date_1 = getDays(date);
+  // *
+  taskSectionHomePage.innerHTML = "";
+
+  const taskStorage_0 = window.localStorage.getItem("Tasks");
+  const taskStorage = JSON.parse(taskStorage_0);
+
+  for (let i = 0; i < taskStorage.tasks.length; i++) {
+    if (taskStorage.tasks[i].due === date_1) {
+      taskSectionHomePage.innerHTML += `
+       <div class="task-box ${taskStorage.tasks[i].priority}-priority">
+      <div class="task-title-div">
+        <h3>${taskStorage.tasks[i].title}</h3>
+        <h6>${taskStorage.tasks[i].due}</h6>
+      </div> 
+      
+     <div class="task-msg-div">
+        <p>${taskStorage.tasks[i].message}</p>
+      </div> 
+      
+     <div class="task-opt-container">
+        <div class="done-box">
+          <input class="task-done" type="checkbox" />
+        </div>
+        <div class="edit-box">
+          <input class="edit-task" type="checkbox" />
+        </div>
+        <div class="remove-box">
+          <input class="remove-task" type="checkbox" />
+        </div>
+      </div> 
+     </div> 
+      `;
+    }
+  }
+}
+
+function getDays(dayNr) {
+  const date = new Date();
+  let month = date.getMonth() + 1;
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  const nextDay = new Date(date);
+  nextDay.setDate(date.getDate() + dayNr);
+  const nextDayStrArray = `${nextDay}`.split(" ");
+  const nextDayStr = `${nextDayStrArray[3]}-${month}-${date.getDate() + dayNr}`;
+  return nextDayStr;
+}
