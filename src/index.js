@@ -13,6 +13,7 @@ import { setLocalStorage } from "./storage.js";
 import { changeCalenderValue } from "./add-task-modal.js";
 import { addTaskFunction } from "./add-task-modal.js";
 import { changePrioritySelected } from "./add-task-modal.js";
+import { renderTaskHomePage } from "./add-task-modal.js";
 
 // ******
 
@@ -62,4 +63,13 @@ openAddTaskModalHomeBtn.addEventListener("click", function () {
 openAddTaskModalSidebarBtn.addEventListener("click", function () {
   addTaskFunction();
   changePrioritySelected();
+});
+
+let day_nr = undefined;
+const date_containers = document.querySelectorAll(".calender-box-container");
+date_containers.forEach((el) => {
+  el.addEventListener("click", function () {
+    day_nr = Number(el.children[0].childNodes[1].classList[0].split("-")[1]);
+    return renderTaskHomePage(day_nr);
+  });
 });
