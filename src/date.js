@@ -57,6 +57,7 @@ export function setCalenderDates() {
   day_6_name.textContent = getDayName(day_6);
   day_6_nr.textContent = getDayNr(day_6);
   // **
+  toggleIsSelectedAttr();
 }
 
 function getNextDays(daysToAdd) {
@@ -81,4 +82,19 @@ function changeDateFormat(date) {
   let dateStringArray = dateString.split(" ");
   let result = `${dateStringArray[2]}|${dateStringArray[1]}|${dateStringArray[3]}`;
   return result;
+}
+
+function toggleIsSelectedAttr() {
+  const date_containers = document.querySelectorAll(".calender-box-container");
+
+  date_containers.forEach((el) => {
+    el.addEventListener("click", function () {
+      for (let i = 0; i < date_containers.length; i++) {
+        date_containers[i].dataset.clicked = "false";
+      }
+      if (el.dataset.clicked === "false") {
+        el.dataset.clicked = "true";
+      }
+    });
+  });
 }
