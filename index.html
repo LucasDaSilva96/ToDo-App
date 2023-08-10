@@ -221,7 +221,7 @@
           </div>
           <!--  -->
           <div class="title-box">
-            <input type="text" required placeholder="Title" />
+            <input class="title" type="text" required placeholder="Title" />
           </div>
           <!--  -->
           <div class="message-box">
@@ -244,13 +244,25 @@
               />
             </div>
             <div class="priority-div">
-              <div class="low-priority-div">
+              <div
+                id="low"
+                class="low-priority-div priority"
+                data-selected="false"
+              >
                 <p>Low</p>
               </div>
-              <div class="medium-priority-div">
+              <div
+                id="medium"
+                class="medium-priority-div priority"
+                data-selected="false"
+              >
                 <p>Medium</p>
               </div>
-              <div class="high-priority-div">
+              <div
+                id="high"
+                class="high-priority-div priority"
+                data-selected="false"
+              >
                 <p>High</p>
               </div>
             </div>
