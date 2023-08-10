@@ -10,6 +10,10 @@ import { openAddTaskModalSideBar } from "./add-task-modal.js";
 import { showAddProjectInput } from "./add-task-modal.js";
 import { projectInputListener } from "./storage.js";
 import { setLocalStorage } from "./storage.js";
+import { changeCalenderValue } from "./add-task-modal.js";
+import { addTaskFunction } from "./add-task-modal.js";
+import { changePrioritySelected } from "./add-task-modal.js";
+
 // ******
 
 menuSlider();
@@ -40,4 +44,22 @@ projectInputListener();
 
 // *****
 
-window.addEventListener("DOMContentLoaded", setLocalStorage());
+window.addEventListener("DOMContentLoaded", function () {
+  setLocalStorage();
+  changeCalenderValue();
+});
+
+const openAddTaskModalHomeBtn = document.querySelector(".add-task-svg-box");
+const openAddTaskModalSidebarBtn = document.querySelector(
+  ".sideBar-add-task-btn-box"
+);
+
+openAddTaskModalHomeBtn.addEventListener("click", function () {
+  addTaskFunction();
+  changePrioritySelected();
+});
+
+openAddTaskModalSidebarBtn.addEventListener("click", function () {
+  addTaskFunction();
+  changePrioritySelected();
+});
