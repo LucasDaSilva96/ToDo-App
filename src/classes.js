@@ -39,7 +39,12 @@ export class TASK {
     );
 
     data.projects[index].project_tasks.push(obj);
-    return window.localStorage.setItem("Projects", JSON.stringify(data));
+    window.localStorage.setItem("Projects", JSON.stringify(data));
+
+    const taskStorage_0 = window.localStorage.getItem("Tasks");
+    const taskStorage = JSON.parse(taskStorage_0);
+    taskStorage.tasks.push(obj);
+    window.localStorage.setItem("Tasks", JSON.stringify(taskStorage));
   }
 }
 
