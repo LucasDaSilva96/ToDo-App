@@ -75,7 +75,14 @@ export function setLocalStorage() {
       },
     ],
   };
-  if (window.localStorage.length === 0) {
+
+  const storageTasks = {
+    tasks: [],
+  };
+  if (window.localStorage.getItem("Projects") === null) {
     window.localStorage.setItem("Projects", JSON.stringify(storageObj));
+  }
+  if (window.localStorage.getItem("Tasks") === null) {
+    window.localStorage.setItem("Tasks", JSON.stringify(storageTasks));
   }
 }
