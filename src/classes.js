@@ -37,6 +37,7 @@ export class TASK {
     const index = data.projects.findIndex(
       (element) => element.project_name === this.projectName
     );
+
     data.projects[index].project_tasks.push(obj);
     return window.localStorage.setItem("Projects", JSON.stringify(data));
   }
