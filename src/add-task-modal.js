@@ -13,6 +13,7 @@ export function closeAddTaskModal() {
     if (closeModalSvg.dataset.navigation === "home") {
       overlay.classList.add("hidden");
       addTaskModalSection.classList.add("hidden");
+      renderTaskHomePage(0);
     } else if (closeModalSvg.dataset.navigation === "sideBar") {
       addTaskModalSection.classList.toggle("hidden");
       overlay.classList.toggle("hidden");
@@ -29,6 +30,7 @@ const addTaskHomeBtn = document.querySelector(".add-task-svg-box");
 export function openAddTaskModalHome() {
   addTaskHomeBtn.addEventListener("click", function () {
     if (projectsExist()) {
+      resetAddTaskValues();
       renderProjectSelections();
       closeModalSvg.dataset.navigation = "home";
       overlay.classList.remove("hidden");
@@ -81,6 +83,7 @@ const selectProjectHtml = document.getElementById("project-selection");
 const priorityDivs = document.querySelectorAll(".priority");
 const taskTitle = document.querySelector(".title");
 const taskMessage = document.getElementById("message");
+const defaultProjectSelected = document.querySelector(".default-opt");
 function isProjectSelected() {
   if (selectProjectHtml.value === "Select Project") {
     return false;
@@ -148,14 +151,16 @@ export function changeCalenderValue() {
 
 const addTaskBtn = document.querySelector(".add-task-box");
 
+let project = undefined;
 export function addTaskFunction() {
   // ****
-  let project = undefined;
   selectProjectHtml.addEventListener("change", function () {
     project = selectProjectHtml.value;
   });
   // ***
-
+  addTaskBtnFunction();
+}
+function addTaskBtnFunction() {
   addTaskBtn.addEventListener("click", function () {
     if (isPrioritySelected() && isProjectSelected() && isTaskTitleLegit()) {
       newTask = new TASK(
@@ -166,10 +171,13 @@ export function addTaskFunction() {
         prioritySelected
       );
 
-      if (checkForTitleDuplicate(taskTitle.value, project)) {
+      if (
+        checkForTitleDuplicate(newTask.task_title, project, newTask.task_due)
+      ) {
         newTask.saveTaskToProject();
       } else {
         window.alert("You already have this title on the selected project");
+        resetAddTaskValues();
       }
     } else {
       return;
@@ -177,25 +185,26 @@ export function addTaskFunction() {
   });
 }
 
-function checkForTitleDuplicate(title, projectName) {
+function checkForTitleDuplicate(title, projectName, dueDate) {
   const data = window.localStorage.getItem("Projects");
   const data_1 = JSON.parse(data);
+
+  const project = data_1.projects.find(
+    (project) => project.project_name === projectName
+  );
+  if (!project) {
+    return true; // Project doesn't exist, so title can't be a duplicate
+  }
 
   const index_proj = data_1.projects.findIndex((el) => {
     return el.project_name === projectName;
   });
 
-  const index_title = data_1.projects[index_proj].project_tasks.findIndex(
-    (el) => {
-      return el.title === title;
-    }
+  const duplicateTask = data_1.projects[index_proj].project_tasks.find(
+    (task) => task.title === title && task.due === dueDate
   );
 
-  if (index_title < 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return !duplicateTask;
 }
 
 const taskSectionHomePage = document.querySelector(".task-section");
@@ -249,4 +258,11 @@ function getDays(dayNr) {
   const nextDayStrArray = `${nextDay}`.split(" ");
   const nextDayStr = `${nextDayStrArray[3]}-${month}-${date.getDate() + dayNr}`;
   return nextDayStr;
+}
+
+function resetAddTaskValues() {
+  defaultProjectSelected.setAttribute("selected", "");
+  taskTitle.value = "";
+  taskMessage.value = "";
+  dueDateCalender.value = formatDate();
 }

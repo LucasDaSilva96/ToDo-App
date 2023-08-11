@@ -16,6 +16,7 @@ import { changePrioritySelected } from "./add-task-modal.js";
 import { renderTaskHomePage } from "./add-task-modal.js";
 
 // ******
+let day_nr = undefined;
 
 menuSlider();
 closeAddTaskModal();
@@ -48,6 +49,7 @@ projectInputListener();
 window.addEventListener("DOMContentLoaded", function () {
   setLocalStorage();
   changeCalenderValue();
+  renderTaskHomePage(0);
 });
 
 const openAddTaskModalHomeBtn = document.querySelector(".add-task-svg-box");
@@ -65,7 +67,6 @@ openAddTaskModalSidebarBtn.addEventListener("click", function () {
   changePrioritySelected();
 });
 
-let day_nr = undefined;
 const date_containers = document.querySelectorAll(".calender-box-container");
 date_containers.forEach((el) => {
   el.addEventListener("click", function () {
