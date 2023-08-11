@@ -154,6 +154,8 @@ const addTaskBtn = document.querySelector(".add-task-box");
 let project = undefined;
 export function addTaskFunction() {
   // ****
+  project = selectProjectHtml.value;
+
   selectProjectHtml.addEventListener("change", function () {
     project = selectProjectHtml.value;
   });
@@ -265,4 +267,87 @@ function resetAddTaskValues() {
   taskTitle.value = "";
   taskMessage.value = "";
   dueDateCalender.value = formatDate();
+}
+
+export function taskDoneFunction() {
+  const all_done_boxes = document.querySelectorAll(".done-box");
+  const PROJECT_STORAGE = getLocalStorageObject("Projects");
+  const TASKS_STORAGE = getLocalStorageObject("Tasks");
+  all_done_boxes.forEach((el) => {
+    el.addEventListener("click", function () {
+      el.parentElement.parentElement.classList.toggle("task-done");
+      const task_Done_title =
+        el.parentElement.parentElement.firstElementChild.firstElementChild
+          .textContent;
+      const task_Done_Due =
+        el.parentElement.parentElement.firstElementChild.lastElementChild
+          .textContent;
+
+      // MANIPULATING THE CLICKED TASK INSIDE THe RIGHT PROJECT IN localStorage
+      let projectIndex = -1;
+
+      for (const project of PROJECT_STORAGE.projects) {
+        projectIndex = project.project_tasks.findIndex(
+          (task) => task.project === project.project_name
+        );
+        if (projectIndex !== -1) {
+          break; // Exit the loop if the task is found
+        }
+      }
+
+      let taskArrayIndex = PROJECT_STORAGE.projects[
+        projectIndex
+      ].project_tasks.findIndex((task) => {
+        return (
+          task.project ===
+            PROJECT_STORAGE.projects[projectIndex].project_name &&
+          task.title === task_Done_title &&
+          task.due === task_Done_Due
+        );
+      });
+
+      if (
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex]
+          .done === false
+      ) {
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].done = true;
+      } else if (
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex]
+          .done === true
+      ) {
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].done = false;
+      }
+      //** MANIPULATING THE CLICKED TASK INSIDE TASKS IN THE localStorage **
+      let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
+        return (
+          element.title === task_Done_title && element.due === task_Done_Due
+        );
+      });
+
+      if (TASKS_STORAGE.tasks[taskIndex].done === false) {
+        TASKS_STORAGE.tasks[taskIndex].done = true;
+      } else if (TASKS_STORAGE.tasks[taskIndex].done === true) {
+        TASKS_STORAGE.tasks[taskIndex].done = false;
+      }
+
+      // ***********************************************************
+      pushDataToLocalStorage("Projects", PROJECT_STORAGE);
+      pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+    });
+  });
+}
+
+function getLocalStorageObject(keyName) {
+  const data_0 = window.localStorage.getItem(`${keyName}`);
+  const data = JSON.parse(data_0);
+  return data;
+}
+
+function pushDataToLocalStorage(keyName, object) {
+  const objStr = JSON.stringify(object);
+  return window.localStorage.setItem(`${keyName}`, objStr);
 }

@@ -14,6 +14,7 @@ import { changeCalenderValue } from "./add-task-modal.js";
 import { addTaskFunction } from "./add-task-modal.js";
 import { changePrioritySelected } from "./add-task-modal.js";
 import { renderTaskHomePage } from "./add-task-modal.js";
+import { taskDoneFunction } from "./add-task-modal.js";
 
 // ******
 let day_nr = undefined;
@@ -50,6 +51,8 @@ window.addEventListener("DOMContentLoaded", function () {
   setLocalStorage();
   changeCalenderValue();
   renderTaskHomePage(0);
+  // EDIT LATER ↓
+  taskDoneFunction();
 });
 
 const openAddTaskModalHomeBtn = document.querySelector(".add-task-svg-box");

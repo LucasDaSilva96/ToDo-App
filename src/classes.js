@@ -31,6 +31,7 @@ export class TASK {
       priority: this.task_priority,
       done: false,
       remove: false,
+      project: this.projectName,
     };
     const data_0 = window.localStorage.getItem("Projects");
     const data = JSON.parse(data_0);
