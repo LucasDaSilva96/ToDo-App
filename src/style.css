@@ -630,7 +630,7 @@ input[type="checkbox"]:checked {
   position: absolute;
   width: 100%;
   min-height: 95vh;
-  z-index: 400;
+  z-index: 4000;
   top: 10px;
   left: 0;
   background-image: linear-gradient(
@@ -709,6 +709,7 @@ input[type="checkbox"]:checked {
   align-self: flex-end;
   display: flex;
   gap: 10px;
+  cursor: pointer;
 }
 
 .low-priority-div {
@@ -733,6 +734,11 @@ input[type="checkbox"]:checked {
   border: solid 1.5px yellow;
   background-color: rgba(255, 255, 0, 0.2);
   color: yellow;
+}
+
+[data-selected="true"] {
+  transform: scale(1.2);
+  background-color: #000000a1;
 }
 
 .due-date-div label {

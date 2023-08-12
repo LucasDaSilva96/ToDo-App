@@ -14,6 +14,7 @@ export function closeAddTaskModal() {
       overlay.classList.add("hidden");
       addTaskModalSection.classList.add("hidden");
       renderTaskHomePage(0);
+      seeTaskDetailsFunction();
     } else if (closeModalSvg.dataset.navigation === "sideBar") {
       addTaskModalSection.classList.toggle("hidden");
       overlay.classList.toggle("hidden");
@@ -92,7 +93,7 @@ function isProjectSelected() {
   }
 }
 
-let prioritySelected;
+let prioritySelected = undefined;
 
 function isPrioritySelected() {
   let isLegit = false;
@@ -118,11 +119,14 @@ function isTaskTitleLegit() {
 export function changePrioritySelected() {
   priorityDivs.forEach((el) => {
     el.addEventListener("click", function () {
-      if (el.dataset.selected === "false") {
-        el.dataset.selected = "true";
-      } else if (el.dataset.selected === "true") {
-        el.dataset.selected = "false";
-      }
+      console.log("click");
+      priorityDivs.forEach((otherEl) => {
+        if (otherEl !== el) {
+          otherEl.dataset.selected = "false";
+        }
+      });
+
+      el.dataset.selected = el.dataset.selected === "false" ? "true" : "false";
     });
   });
 }
@@ -174,39 +178,33 @@ function addTaskBtnFunction() {
       );
 
       if (
-        checkForTitleDuplicate(newTask.task_title, project, newTask.task_due)
+        checkForTitleDuplicate(newTask.task_title, newTask.task_due) === false
       ) {
         newTask.saveTaskToProject();
-      } else {
-        window.alert("You already have this title on the selected project");
+      } else if (
+        checkForTitleDuplicate(newTask.task_title, newTask.task_due) === true
+      ) {
+        window.alert("You already have this task on the selected date");
         resetAddTaskValues();
       }
     } else {
+      window.alert("Please fill all the necessary information");
       return;
     }
   });
 }
 
-function checkForTitleDuplicate(title, projectName, dueDate) {
-  const data = window.localStorage.getItem("Projects");
-  const data_1 = JSON.parse(data);
-
-  const project = data_1.projects.find(
-    (project) => project.project_name === projectName
-  );
-  if (!project) {
-    return true; // Project doesn't exist, so title can't be a duplicate
-  }
-
-  const index_proj = data_1.projects.findIndex((el) => {
-    return el.project_name === projectName;
+function checkForTitleDuplicate(title, dueDate) {
+  const data = getLocalStorageObject("Tasks");
+  let index = data.tasks.findIndex((element) => {
+    return element.title === title && element.due === dueDate;
   });
 
-  const duplicateTask = data_1.projects[index_proj].project_tasks.find(
-    (task) => task.title === title && task.due === dueDate
-  );
-
-  return !duplicateTask;
+  if (index < 0) {
+    return false;
+  } else if (index >= 0) {
+    return true;
+  }
 }
 
 const taskSectionHomePage = document.querySelector(".task-section");
@@ -216,8 +214,7 @@ export function renderTaskHomePage(date) {
   // *
   taskSectionHomePage.innerHTML = "";
 
-  const taskStorage_0 = window.localStorage.getItem("Tasks");
-  const taskStorage = JSON.parse(taskStorage_0);
+  const taskStorage = getLocalStorageObject("Tasks");
 
   for (let i = 0; i < taskStorage.tasks.length; i++) {
     if (taskStorage.tasks[i].due === date_1) {
@@ -283,17 +280,23 @@ export function taskDoneFunction() {
         el.parentElement.parentElement.firstElementChild.lastElementChild
           .textContent;
 
-      // MANIPULATING THE CLICKED TASK INSIDE THe RIGHT PROJECT IN localStorage
-      let projectIndex = -1;
-
-      for (const project of PROJECT_STORAGE.projects) {
-        projectIndex = project.project_tasks.findIndex(
-          (task) => task.project === project.project_name
+      //** MANIPULATING THE CLICKED TASK INSIDE TASKS IN THE localStorage **
+      let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
+        return (
+          element.title === task_Done_title && element.due === task_Done_Due
         );
-        if (projectIndex !== -1) {
-          break; // Exit the loop if the task is found
-        }
+      });
+
+      if (TASKS_STORAGE.tasks[taskIndex].done === false) {
+        TASKS_STORAGE.tasks[taskIndex].done = true;
+      } else if (TASKS_STORAGE.tasks[taskIndex].done === true) {
+        TASKS_STORAGE.tasks[taskIndex].done = false;
       }
+
+      // ***********************************************************
+      let projectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
+        return project.project_name === TASKS_STORAGE.tasks[taskIndex].project;
+      });
 
       let taskArrayIndex = PROJECT_STORAGE.projects[
         projectIndex
@@ -321,33 +324,152 @@ export function taskDoneFunction() {
           taskArrayIndex
         ].done = false;
       }
-      //** MANIPULATING THE CLICKED TASK INSIDE TASKS IN THE localStorage **
-      let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
-        return (
-          element.title === task_Done_title && element.due === task_Done_Due
-        );
-      });
-
-      if (TASKS_STORAGE.tasks[taskIndex].done === false) {
-        TASKS_STORAGE.tasks[taskIndex].done = true;
-      } else if (TASKS_STORAGE.tasks[taskIndex].done === true) {
-        TASKS_STORAGE.tasks[taskIndex].done = false;
-      }
-
-      // ***********************************************************
       pushDataToLocalStorage("Projects", PROJECT_STORAGE);
       pushDataToLocalStorage("Tasks", TASKS_STORAGE);
     });
   });
 }
 
-function getLocalStorageObject(keyName) {
+export function getLocalStorageObject(keyName) {
   const data_0 = window.localStorage.getItem(`${keyName}`);
   const data = JSON.parse(data_0);
   return data;
 }
 
-function pushDataToLocalStorage(keyName, object) {
+export function pushDataToLocalStorage(keyName, object) {
   const objStr = JSON.stringify(object);
   return window.localStorage.setItem(`${keyName}`, objStr);
+}
+
+export function seeTaskDetailsFunction() {
+  const task_detail_title = document.querySelector(".task-detail-title-p");
+  const task_detail_project = document.querySelector(".task-detail-project-p");
+  const task_detail_priority = document.querySelector(
+    ".task-detail-priority-p"
+  );
+  const task_detail_due = document.querySelector(".task-detail-due-p");
+  const task_detail_message = document.querySelector(".task-detail-message-p");
+  const edit_task_btn = document.querySelector(".edit-task-btn");
+  const close_detail_section_btn = document.querySelector(
+    ".close-detail-modal-box"
+  );
+  const task_detail_section = document.querySelector(
+    ".task-detail-modal-section"
+  );
+  const task_details_boxes = document.querySelectorAll(".edit-box");
+  const PROJECT_STORAGE = getLocalStorageObject("Projects");
+  const TASKS_STORAGE = getLocalStorageObject("Tasks");
+
+  task_details_boxes.forEach((el) => {
+    el.addEventListener("click", function () {
+      task_detail_section.classList.remove("hidden");
+      overlay.classList.remove("hidden");
+
+      const title =
+        el.parentElement.parentElement.firstElementChild.firstElementChild
+          .textContent;
+
+      const due =
+        el.parentElement.parentElement.firstElementChild.lastElementChild
+          .textContent;
+
+      // task index in the Tasks array
+      let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
+        return element.title === title && element.due === due;
+      });
+
+      // Project index nr in the Projects
+      let projectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
+        return project.project_name === TASKS_STORAGE.tasks[taskIndex].project;
+      });
+
+      // Task array index in the project
+      let taskArrayIndex = PROJECT_STORAGE.projects[
+        projectIndex
+      ].project_tasks.findIndex((task) => {
+        return (
+          task.project ===
+            PROJECT_STORAGE.projects[projectIndex].project_name &&
+          task.title === title &&
+          task.due === due
+        );
+      });
+
+      task_detail_title.textContent =
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].title;
+      task_detail_project.textContent =
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].project;
+      task_detail_priority.textContent =
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].priority;
+      task_detail_due.textContent =
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].due;
+      task_detail_message.textContent =
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[
+          taskArrayIndex
+        ].message;
+
+      edit_task_btn.addEventListener("click", function () {
+        addTaskModalSection.classList.remove("hidden");
+        // ************
+        project = selectProjectHtml.value;
+        taskTitle.value = task_detail_title.textContent;
+        taskMessage.value = task_detail_message.textContent;
+        dueDateCalender.value = task_detail_due.textContent;
+        prioritySelected = task_detail_priority.textContent;
+        // ************
+        selectProjectHtml.addEventListener("change", function () {
+          project = selectProjectHtml.value;
+        });
+        taskTitle.addEventListener("input", function () {
+          taskTitle = taskTitle.value;
+        });
+
+        // **********
+        renderProjectSelections();
+
+        // *************
+        addTaskBtn.addEventListener("click", function () {
+          if (
+            isPrioritySelected() &&
+            isProjectSelected() &&
+            isTaskTitleLegit()
+          ) {
+            const obj = {
+              title: taskTitle.value,
+              message: taskMessage.value,
+              due: dueDateCalender.value,
+              priority: prioritySelected,
+              done: false,
+              remove: false,
+              project: project,
+            };
+
+            if (checkForTitleDuplicate(obj.title, obj.due) === false) {
+              PROJECT_STORAGE.projects[projectIndex].project_tasks[
+                taskArrayIndex
+              ] = obj;
+              TASKS_STORAGE.tasks[taskIndex] = obj;
+              pushDataToLocalStorage("Projects", PROJECT_STORAGE);
+              pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+            } else if (checkForTitleDuplicate(obj.title, obj.due) === true) {
+              window.alert("You already have this task on the selected date");
+              resetAddTaskValues();
+            }
+          } else {
+            window.alert("Please fill all the necessary information");
+            return;
+          }
+        });
+        // ** ↓
+      });
+    });
+  });
 }

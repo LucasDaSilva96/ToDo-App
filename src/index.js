@@ -1,6 +1,10 @@
 import "./style.css";
 import { menuSlider } from "./menu-slide.js";
-import { closeAddTaskModal } from "./add-task-modal.js";
+import {
+  closeAddTaskModal,
+  getLocalStorageObject,
+  pushDataToLocalStorage,
+} from "./add-task-modal.js";
 import { openAddTaskModalHome } from "./add-task-modal.js";
 import { clockFunction } from "./clock.js";
 import { greetingFunction } from "./greeting.js";
@@ -15,6 +19,7 @@ import { addTaskFunction } from "./add-task-modal.js";
 import { changePrioritySelected } from "./add-task-modal.js";
 import { renderTaskHomePage } from "./add-task-modal.js";
 import { taskDoneFunction } from "./add-task-modal.js";
+import { seeTaskDetailsFunction } from "./add-task-modal.js";
 
 // ******
 let day_nr = undefined;
@@ -53,6 +58,7 @@ window.addEventListener("DOMContentLoaded", function () {
   renderTaskHomePage(0);
   // EDIT LATER ↓
   taskDoneFunction();
+  seeTaskDetailsFunction();
 });
 
 const openAddTaskModalHomeBtn = document.querySelector(".add-task-svg-box");
@@ -75,5 +81,13 @@ date_containers.forEach((el) => {
   el.addEventListener("click", function () {
     day_nr = Number(el.children[0].childNodes[1].classList[0].split("-")[1]);
     return renderTaskHomePage(day_nr);
+  });
+});
+
+const calenderBoxes = document.querySelectorAll(".calender-box-container");
+calenderBoxes.forEach((el) => {
+  el.addEventListener("click", function () {
+    taskDoneFunction();
+    seeTaskDetailsFunction();
   });
 });

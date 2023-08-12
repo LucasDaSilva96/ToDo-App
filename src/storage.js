@@ -11,9 +11,9 @@ let projectObj;
 
 export function renderProjects() {
   const data = JSON.parse(window.localStorage.getItem("Projects"));
-
+  projectsListContainer.innerHTML = ``;
   for (let i = 0; i < data.projects.length; i++) {
-    projectsListContainer.innerHTML = `
+    projectsListContainer.innerHTML += `
       <div class="project-box" id="${data.projects[i].project_name}">
           <h4>${data.projects[i].project_name}</h4>
             <div class="task-nr-div">

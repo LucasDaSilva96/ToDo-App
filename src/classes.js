@@ -1,3 +1,5 @@
+import { getLocalStorageObject } from "./add-task-modal.js";
+import { pushDataToLocalStorage } from "./add-task-modal.js";
 // Project class
 export class PROJECT {
   constructor(projectName) {
@@ -33,32 +35,31 @@ export class TASK {
       remove: false,
       project: this.projectName,
     };
-    const data_0 = window.localStorage.getItem("Projects");
-    const data = JSON.parse(data_0);
+
+    const data = getLocalStorageObject("Projects");
     const index = data.projects.findIndex(
       (element) => element.project_name === this.projectName
     );
 
     data.projects[index].project_tasks.push(obj);
-    window.localStorage.setItem("Projects", JSON.stringify(data));
+    pushDataToLocalStorage("Projects", data);
 
-    const taskStorage_0 = window.localStorage.getItem("Tasks");
-    const taskStorage = JSON.parse(taskStorage_0);
+    const taskStorage = getLocalStorageObject("Tasks");
     taskStorage.tasks.push(obj);
-    window.localStorage.setItem("Tasks", JSON.stringify(taskStorage));
+    pushDataToLocalStorage("Tasks", taskStorage);
   }
 }
 
 function storage(project) {
-  let data = JSON.parse(window.localStorage.getItem("Projects"));
+  let data = getLocalStorageObject("Projects");
 
   data.projects.push(project);
 
-  return localStorage.setItem("Projects", JSON.stringify(data));
+  return pushDataToLocalStorage("Projects", data);
 }
 
 export function projectsExist() {
-  const projects = window.localStorage.getItem("Projects");
+  const projects = getLocalStorageObject("Projects");
 
   if (projects === null || projects === undefined) {
     return false;
