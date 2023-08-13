@@ -391,6 +391,7 @@ input[type="checkbox"]:checked {
 }
 
 .add-task-svg-box {
+  cursor: pointer;
   background-image: linear-gradient(
     to top,
     rgba(74, 38, 173, 0.7),
@@ -523,6 +524,7 @@ input[type="checkbox"]:checked {
 }
 
 .sideBar-add-task-btn {
+  cursor: pointer;
   background-color: #00c0a3;
   border: none;
   border-radius: 10px;
@@ -552,7 +554,7 @@ input[type="checkbox"]:checked {
 
 .add-project-svg {
   margin-top: 10px;
-
+  cursor: pointer;
   background-image: linear-gradient(
     to right top,
     rgb(132, 94, 194, 0.8),
@@ -654,6 +656,7 @@ input[type="checkbox"]:checked {
 }
 
 .close-modal-box {
+  cursor: pointer;
   margin-left: auto;
   background-color: #ffffff3d;
   border-radius: 10px;
@@ -783,6 +786,7 @@ input[type="checkbox"]:checked {
 }
 
 .modal-add-task-btn {
+  cursor: pointer;
   padding: 20px;
   font-size: 22px;
   border-radius: 10px;
@@ -826,6 +830,7 @@ input[type="checkbox"]:checked {
 
 .close-detail-modal-box {
   margin-left: auto;
+  cursor: pointer;
 }
 
 .close-detail-svg {
@@ -916,6 +921,7 @@ input[type="checkbox"]:checked {
 }
 
 .edit-task-btn {
+  cursor: pointer;
   padding: 10px;
   width: 7rem;
   height: 3rem;
