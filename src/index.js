@@ -1,10 +1,6 @@
 import "./style.css";
 import { menuSlider } from "./menu-slide.js";
-import {
-  closeAddTaskModal,
-  getLocalStorageObject,
-  pushDataToLocalStorage,
-} from "./add-task-modal.js";
+import { closeAddTaskModal } from "./add-task-modal.js";
 import { openAddTaskModalHome } from "./add-task-modal.js";
 import { clockFunction } from "./clock.js";
 import { greetingFunction } from "./greeting.js";
@@ -16,7 +12,6 @@ import { projectInputListener } from "./storage.js";
 import { setLocalStorage } from "./storage.js";
 import { changeCalenderValue } from "./add-task-modal.js";
 import { addTaskFunction } from "./add-task-modal.js";
-import { changePrioritySelected } from "./add-task-modal.js";
 import { renderTaskHomePage } from "./add-task-modal.js";
 import { taskDoneFunction } from "./add-task-modal.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
@@ -26,8 +21,7 @@ let day_nr = undefined;
 
 menuSlider();
 closeAddTaskModal();
-// openAddTaskModalHome();
-// openAddTaskModalSideBar();
+
 // Clock-function ↓
 clockFunction();
 setInterval(function () {

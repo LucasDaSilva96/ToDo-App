@@ -24,6 +24,10 @@ export function closeAddTaskModal() {
       sideBarSection.classList.add("slide-sideBar");
     }
     removePriorityClickListener();
+    addTaskBtn.removeEventListener("click", handleAddTaskClick);
+    taskTitle.classList.remove("inputNotValid");
+    selectProjectHtml.classList.remove("inputNotValid");
+    priorityContainer.classList.remove("inputNotValid");
   });
 }
 
@@ -123,7 +127,6 @@ function handlePriorityClick(event) {
     });
     clickedElement.dataset.selected =
       clickedElement.dataset.selected === "false" ? "true" : "false";
-    console.log(event.target.parentElement);
   } else {
     return;
   }
@@ -164,6 +167,7 @@ export function changeCalenderValue() {
 }
 
 const addTaskBtn = document.querySelector(".add-task-box");
+const priorityContainer = document.querySelector(".priority-div");
 
 let project = undefined;
 export function addTaskFunction() {
@@ -175,34 +179,51 @@ export function addTaskFunction() {
   });
   // ***
   addPriorityClickListener();
-  addTaskBtnFunction();
+  AddTaskClick();
 }
-function addTaskBtnFunction() {
-  addTaskBtn.addEventListener("click", function () {
-    if (isPrioritySelected() && isProjectSelected() && isTaskTitleLegit()) {
-      newTask = new TASK(
-        project,
-        taskTitle.value,
-        taskMessage.value,
-        dueDateCalender.value,
-        prioritySelected
-      );
+function handleAddTaskClick() {
+  if (isPrioritySelected() && isProjectSelected() && isTaskTitleLegit()) {
+    newTask = new TASK(
+      project,
+      taskTitle.value,
+      taskMessage.value,
+      dueDateCalender.value,
+      prioritySelected
+    );
 
-      if (
-        checkForTitleDuplicate(newTask.task_title, newTask.task_due) === false
-      ) {
-        newTask.saveTaskToProject();
-      } else if (
-        checkForTitleDuplicate(newTask.task_title, newTask.task_due) === true
-      ) {
-        window.alert("You already have this task on the selected date");
-        resetAddTaskValues();
-      }
-    } else {
-      window.alert("Please fill all the necessary information");
-      return;
+    if (
+      checkForTitleDuplicate(newTask.task_title, newTask.task_due) === false
+    ) {
+      newTask.saveTaskToProject();
+    } else if (
+      checkForTitleDuplicate(newTask.task_title, newTask.task_due) === true
+    ) {
+      window.alert("You already have this task on the selected date");
+      resetAddTaskValues();
     }
-  });
+  } else if (!isTaskTitleLegit()) {
+    taskTitle.classList.add("inputNotValid");
+    window.alert("Enter the title of your task.");
+    return;
+  } else if (!isProjectSelected()) {
+    selectProjectHtml.classList.add("inputNotValid");
+    window.alert("Please choose a project to save your task.");
+    return;
+  } else if (!isPrioritySelected()) {
+    priorityContainer.classList.add("inputNotValid");
+    window.alert("Please select the priority of your task.");
+    return;
+  } else {
+    taskTitle.classList.add("inputNotValid");
+    selectProjectHtml.classList.add("inputNotValid");
+    priorityContainer.classList.add("inputNotValid");
+    window.alert("Please fill all the necessary information.");
+    return;
+  }
+}
+
+function AddTaskClick() {
+  addTaskBtn.addEventListener("click", handleAddTaskClick);
 }
 
 function checkForTitleDuplicate(title, dueDate) {
