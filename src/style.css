@@ -952,6 +952,7 @@ input[type="checkbox"]:checked {
 
 .task-done {
   opacity: 0.4;
+  background-color: transparent;
 }
 
 .rotate {
