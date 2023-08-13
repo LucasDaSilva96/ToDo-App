@@ -23,40 +23,33 @@ export function closeAddTaskModal() {
       overlay.classList.toggle("hidden");
       sideBarSection.classList.add("slide-sideBar");
     }
+    removePriorityClickListener();
   });
 }
-
-const addTaskHomeBtn = document.querySelector(".add-task-svg-box");
 
 export function openAddTaskModalHome() {
-  addTaskHomeBtn.addEventListener("click", function () {
-    if (projectsExist()) {
-      resetAddTaskValues();
-      renderProjectSelections();
-      closeModalSvg.dataset.navigation = "home";
-      overlay.classList.remove("hidden");
-      addTaskModalSection.classList.remove("hidden");
-    } else {
-      window.alert("You need to create a project first");
-      return;
-    }
-  });
+  if (projectsExist()) {
+    resetAddTaskValues();
+    renderProjectSelections();
+    closeModalSvg.dataset.navigation = "home";
+    overlay.classList.remove("hidden");
+    addTaskModalSection.classList.remove("hidden");
+  } else {
+    window.alert("You need to create a project first");
+    return;
+  }
 }
 
-const addTaskSideBarBtn = document.querySelector(".sideBar-add-task-btn");
-
 export function openAddTaskModalSideBar() {
-  addTaskSideBarBtn.addEventListener("click", function () {
-    if (projectsExist()) {
-      renderProjectSelections();
-      closeModalSvg.dataset.navigation = "sideBar";
-      overlay.classList.remove("hidden");
-      addTaskModalSection.classList.remove("hidden");
-    } else {
-      window.alert("You need to create a project first");
-      return;
-    }
-  });
+  if (projectsExist()) {
+    renderProjectSelections();
+    closeModalSvg.dataset.navigation = "sideBar";
+    overlay.classList.remove("hidden");
+    addTaskModalSection.classList.remove("hidden");
+  } else {
+    window.alert("You need to create a project first");
+    return;
+  }
 }
 
 const openProjectInputBtn = document.querySelector(".add-project-svg");
@@ -116,18 +109,35 @@ function isTaskTitleLegit() {
   }
 }
 
-export function changePrioritySelected() {
-  priorityDivs.forEach((el) => {
-    el.addEventListener("click", function () {
-      console.log("click");
-      priorityDivs.forEach((otherEl) => {
-        if (otherEl !== el) {
-          otherEl.dataset.selected = "false";
-        }
-      });
-
-      el.dataset.selected = el.dataset.selected === "false" ? "true" : "false";
+function handlePriorityClick(event) {
+  if (
+    event.target.textContent === "Low" ||
+    event.target.textContent === "Medium" ||
+    event.target.textContent === "High"
+  ) {
+    const clickedElement = event.target.parentElement;
+    priorityDivs.forEach((i) => {
+      if (i.parentElement !== clickedElement) {
+        i.dataset.selected = "false";
+      }
     });
+    clickedElement.dataset.selected =
+      clickedElement.dataset.selected === "false" ? "true" : "false";
+    console.log(event.target.parentElement);
+  } else {
+    return;
+  }
+}
+
+export function addPriorityClickListener() {
+  priorityDivs.forEach((el) => {
+    el.addEventListener("click", handlePriorityClick);
+  });
+}
+
+export function removePriorityClickListener() {
+  priorityDivs.forEach((el) => {
+    el.removeEventListener("click", handlePriorityClick);
   });
 }
 
@@ -164,6 +174,7 @@ export function addTaskFunction() {
     project = selectProjectHtml.value;
   });
   // ***
+  addPriorityClickListener();
   addTaskBtnFunction();
 }
 function addTaskBtnFunction() {
@@ -264,6 +275,9 @@ function resetAddTaskValues() {
   taskTitle.value = "";
   taskMessage.value = "";
   dueDateCalender.value = formatDate();
+  priorityDivs.forEach((el) => {
+    el.dataset.selected = "false";
+  });
 }
 
 export function taskDoneFunction() {
