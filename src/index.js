@@ -26,8 +26,8 @@ let day_nr = undefined;
 
 menuSlider();
 closeAddTaskModal();
-openAddTaskModalHome();
-openAddTaskModalSideBar();
+// openAddTaskModalHome();
+// openAddTaskModalSideBar();
 // Clock-function ↓
 clockFunction();
 setInterval(function () {
@@ -67,13 +67,13 @@ const openAddTaskModalSidebarBtn = document.querySelector(
 );
 
 openAddTaskModalHomeBtn.addEventListener("click", function () {
+  openAddTaskModalHome();
   addTaskFunction();
-  changePrioritySelected();
 });
 
 openAddTaskModalSidebarBtn.addEventListener("click", function () {
+  openAddTaskModalSideBar();
   addTaskFunction();
-  changePrioritySelected();
 });
 
 const date_containers = document.querySelectorAll(".calender-box-container");
