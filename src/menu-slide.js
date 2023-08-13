@@ -3,6 +3,7 @@ const sideBarSection = document.querySelector(".sideBar-section");
 const closeModalSvg = document.querySelector(".close-svg");
 
 import { renderProjects } from "./storage.js";
+import { taskDoneFunction } from "./add-task-modal.js";
 
 // This function is for showing the sideBar section and hide
 // the other sections
@@ -15,6 +16,7 @@ export function menuSlider() {
       closeModalSvg.dataset.navigation = "sideBar";
     } else {
       closeModalSvg.dataset.navigation = "home";
+      taskDoneFunction();
     }
   });
 }

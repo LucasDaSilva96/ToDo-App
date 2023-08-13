@@ -24,7 +24,9 @@ export function closeAddTaskModal() {
       sideBarSection.classList.add("slide-sideBar");
     }
     removePriorityClickListener();
+    taskDoneFunction();
     addTaskBtn.removeEventListener("click", handleAddTaskClick);
+    addTaskBtn.removeEventListener("click", handleAddTaskClickEdit);
     taskTitle.classList.remove("inputNotValid");
     selectProjectHtml.classList.remove("inputNotValid");
     priorityContainer.classList.remove("inputNotValid");
@@ -47,6 +49,7 @@ export function openAddTaskModalHome() {
 export function openAddTaskModalSideBar() {
   if (projectsExist()) {
     renderProjectSelections();
+    resetAddTaskValues();
     closeModalSvg.dataset.navigation = "sideBar";
     overlay.classList.remove("hidden");
     addTaskModalSection.classList.remove("hidden");
@@ -79,7 +82,7 @@ export function showAddProjectInput() {
 
 const selectProjectHtml = document.getElementById("project-selection");
 const priorityDivs = document.querySelectorAll(".priority");
-const taskTitle = document.querySelector(".title");
+let taskTitle = document.querySelector(".title");
 const taskMessage = document.getElementById("message");
 const defaultProjectSelected = document.querySelector(".default-opt");
 function isProjectSelected() {
@@ -301,10 +304,10 @@ function resetAddTaskValues() {
   });
 }
 
+const PROJECT_STORAGE = getLocalStorageObject("Projects");
+const TASKS_STORAGE = getLocalStorageObject("Tasks");
 export function taskDoneFunction() {
   const all_done_boxes = document.querySelectorAll(".done-box");
-  const PROJECT_STORAGE = getLocalStorageObject("Projects");
-  const TASKS_STORAGE = getLocalStorageObject("Tasks");
   all_done_boxes.forEach((el) => {
     el.addEventListener("click", function () {
       el.parentElement.parentElement.classList.toggle("task-done");
@@ -376,6 +379,16 @@ export function pushDataToLocalStorage(keyName, object) {
   return window.localStorage.setItem(`${keyName}`, objStr);
 }
 
+// ******
+let editTaskTitle = undefined;
+let editTaskDue = undefined;
+const task_detail_section = document.querySelector(
+  ".task-detail-modal-section"
+);
+const close_detail_section_btn = document.querySelector(
+  ".close-detail-modal-box"
+);
+// ******
 export function seeTaskDetailsFunction() {
   const task_detail_title = document.querySelector(".task-detail-title-p");
   const task_detail_project = document.querySelector(".task-detail-project-p");
@@ -385,12 +398,7 @@ export function seeTaskDetailsFunction() {
   const task_detail_due = document.querySelector(".task-detail-due-p");
   const task_detail_message = document.querySelector(".task-detail-message-p");
   const edit_task_btn = document.querySelector(".edit-task-btn");
-  const close_detail_section_btn = document.querySelector(
-    ".close-detail-modal-box"
-  );
-  const task_detail_section = document.querySelector(
-    ".task-detail-modal-section"
-  );
+
   const task_details_boxes = document.querySelectorAll(".edit-box");
   const PROJECT_STORAGE = getLocalStorageObject("Projects");
   const TASKS_STORAGE = getLocalStorageObject("Tasks");
@@ -400,14 +408,18 @@ export function seeTaskDetailsFunction() {
       task_detail_section.classList.remove("hidden");
       overlay.classList.remove("hidden");
 
-      const title =
+      let title =
         el.parentElement.parentElement.firstElementChild.firstElementChild
           .textContent;
 
-      const due =
+      let due =
         el.parentElement.parentElement.firstElementChild.lastElementChild
           .textContent;
 
+      // *****
+      editTaskTitle = title;
+      editTaskDue = due;
+      // ****
       // task index in the Tasks array
       let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
         return element.title === title && element.due === due;
@@ -463,48 +475,103 @@ export function seeTaskDetailsFunction() {
         selectProjectHtml.addEventListener("change", function () {
           project = selectProjectHtml.value;
         });
-        taskTitle.addEventListener("input", function () {
-          taskTitle = taskTitle.value;
-        });
+        // taskTitle.addEventListener("input", function () {
+        //   taskTitle = taskTitle.value;
+        // });
 
         // **********
         renderProjectSelections();
 
         // *************
-        addTaskBtn.addEventListener("click", function () {
-          if (
-            isPrioritySelected() &&
-            isProjectSelected() &&
-            isTaskTitleLegit()
-          ) {
-            const obj = {
-              title: taskTitle.value,
-              message: taskMessage.value,
-              due: dueDateCalender.value,
-              priority: prioritySelected,
-              done: false,
-              remove: false,
-              project: project,
-            };
-
-            if (checkForTitleDuplicate(obj.title, obj.due) === false) {
-              PROJECT_STORAGE.projects[projectIndex].project_tasks[
-                taskArrayIndex
-              ] = obj;
-              TASKS_STORAGE.tasks[taskIndex] = obj;
-              pushDataToLocalStorage("Projects", PROJECT_STORAGE);
-              pushDataToLocalStorage("Tasks", TASKS_STORAGE);
-            } else if (checkForTitleDuplicate(obj.title, obj.due) === true) {
-              window.alert("You already have this task on the selected date");
-              resetAddTaskValues();
-            }
-          } else {
-            window.alert("Please fill all the necessary information");
-            return;
-          }
-        });
+        addPriorityClickListener();
+        addTaskBtn.addEventListener("click", handleAddTaskClickEdit);
         // ** ↓
       });
     });
   });
+  closeModalSvg.addEventListener("click", handleCloseEditModalClick);
+  //
+  close_detail_section_btn.addEventListener("click", function () {
+    task_detail_section.classList.add("hidden");
+    overlay.classList = "overlay hidden";
+    task_details_boxes.forEach((element) => {
+      element.firstElementChild.checked = false;
+    });
+  });
+  // ************
+}
+
+function handleCloseEditModalClick() {
+  removePriorityClickListener();
+  task_detail_section.classList.add("hidden");
+  overlay.classList = "overlay hidden";
+  task_details_boxes.forEach((element) => {
+    element.firstElementChild.checked = false;
+  });
+  addTaskBtn.removeEventListener("click", handleAddTaskClickEdit);
+}
+
+function handleAddTaskClickEdit() {
+  if (isPrioritySelected() && isProjectSelected() && isTaskTitleLegit()) {
+    const obj = {
+      title: taskTitle.value,
+      message: taskMessage.value,
+      due: dueDateCalender.value,
+      priority: prioritySelected,
+      done: false,
+      remove: false,
+      project: project,
+    };
+
+    // task index in the Tasks array
+    let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
+      return element.title === editTaskTitle && element.due === editTaskDue;
+    });
+
+    // Project index nr in the Projects
+    let projectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
+      return project.project_name === TASKS_STORAGE.tasks[taskIndex].project;
+    });
+
+    // Task array index in the project
+    let taskArrayIndex = PROJECT_STORAGE.projects[
+      projectIndex
+    ].project_tasks.findIndex((task) => {
+      return (
+        task.project === PROJECT_STORAGE.projects[projectIndex].project_name &&
+        task.title === editTaskTitle &&
+        task.due === editTaskDue
+      );
+    });
+    if (checkForTitleDuplicate(obj.title, obj.due) === false) {
+      // ***************
+      PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex] =
+        obj;
+      TASKS_STORAGE.tasks[taskIndex] = obj;
+      pushDataToLocalStorage("Projects", PROJECT_STORAGE);
+      pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+      // **************
+    } else if (checkForTitleDuplicate(obj.title, obj.due) === true) {
+      window.alert("You already have this task on the selected date");
+      resetAddTaskValues();
+    }
+  } else if (!isTaskTitleLegit()) {
+    taskTitle.classList.add("inputNotValid");
+    window.alert("Enter the title of your task.");
+    return;
+  } else if (!isProjectSelected()) {
+    selectProjectHtml.classList.add("inputNotValid");
+    window.alert("Please choose a project to save your task.");
+    return;
+  } else if (!isPrioritySelected()) {
+    priorityContainer.classList.add("inputNotValid");
+    window.alert("Please select the priority of your task.");
+    return;
+  } else {
+    taskTitle.classList.add("inputNotValid");
+    selectProjectHtml.classList.add("inputNotValid");
+    priorityContainer.classList.add("inputNotValid");
+    window.alert("Please fill all the necessary information.");
+    return;
+  }
 }
