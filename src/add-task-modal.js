@@ -279,6 +279,69 @@ export function renderTaskHomePage(date) {
       `;
     }
   }
+  // ************************************
+
+  const remove_task_boxes = document.querySelectorAll(".remove-box");
+  remove_task_boxes.forEach((el) => {
+    el.addEventListener("click", function () {
+      checkWhichDayIsClicked();
+      handleRemoveTaskClick(el);
+    });
+  });
+  // **************************************
+}
+
+const date_containers = document.querySelectorAll(".calender-box-container");
+
+function checkWhichDayIsClicked() {
+  date_containers.forEach((el) => {
+    if (el.dataset.clicked === "true") {
+      renderTaskHomePage(
+        Number(el.lastElementChild.lastElementChild.className)
+      );
+    }
+  });
+}
+
+function handleRemoveTaskClick(Element) {
+  const PROJECT_STORAGE = getLocalStorageObject("Projects");
+  const TASKS_STORAGE = getLocalStorageObject("Tasks");
+  const title =
+    Element.parentElement.parentElement.firstElementChild.firstElementChild
+      .textContent;
+  const due =
+    Element.parentElement.parentElement.firstElementChild.lastElementChild
+      .textContent;
+
+  // TASKS Storage
+  let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
+    return element.title === title && element.due === due;
+  });
+  // PROJECTS storage
+  let projectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
+    return project.project_name === TASKS_STORAGE.tasks[taskIndex].project;
+  });
+
+  let taskArrayIndex = PROJECT_STORAGE.projects[
+    projectIndex
+  ].project_tasks.findIndex((task) => {
+    return (
+      task.project === PROJECT_STORAGE.projects[projectIndex].project_name &&
+      task.title === title &&
+      task.due === due
+    );
+  });
+
+  TASKS_STORAGE.tasks.splice(taskIndex, 1);
+  PROJECT_STORAGE.projects[projectIndex].project_tasks.splice(
+    taskArrayIndex,
+    1
+  );
+
+  pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+  pushDataToLocalStorage("Projects", PROJECT_STORAGE);
+  // renderTaskHomePage(0);
+  // ** end of function ** ↓
 }
 
 function getDays(dayNr) {
@@ -390,6 +453,7 @@ const close_detail_section_btn = document.querySelector(
 );
 // ******
 export function seeTaskDetailsFunction() {
+  const task_details_boxes = document.querySelectorAll(".edit-box");
   const task_detail_title = document.querySelector(".task-detail-title-p");
   const task_detail_project = document.querySelector(".task-detail-project-p");
   const task_detail_priority = document.querySelector(
@@ -399,7 +463,6 @@ export function seeTaskDetailsFunction() {
   const task_detail_message = document.querySelector(".task-detail-message-p");
   const edit_task_btn = document.querySelector(".edit-task-btn");
 
-  const task_details_boxes = document.querySelectorAll(".edit-box");
   const PROJECT_STORAGE = getLocalStorageObject("Projects");
   const TASKS_STORAGE = getLocalStorageObject("Tasks");
 
@@ -505,9 +568,9 @@ function handleCloseEditModalClick() {
   removePriorityClickListener();
   task_detail_section.classList.add("hidden");
   overlay.classList = "overlay hidden";
-  task_details_boxes.forEach((element) => {
-    element.firstElementChild.checked = false;
-  });
+  // task_details_boxes.forEach((element) => {
+  //   element.firstElementChild.checked = false;
+  // });
   addTaskBtn.removeEventListener("click", handleAddTaskClickEdit);
 }
 
