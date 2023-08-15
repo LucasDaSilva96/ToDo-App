@@ -356,7 +356,9 @@ function handleRemoveTaskClick(Element) {
     );
   });
 
-  console.log("handleRemoveTaskClick", taskArrayIndex);
+  console.log("handleRemoveTaskClick-taskIndex", taskIndex);
+  console.log("handleRemoveTaskClick-projectIndex", projectIndex);
+  console.log("handleRemoveTaskClick-taskArrayIndex", taskArrayIndex);
   TASKS_STORAGE.tasks.splice(taskIndex, 1);
   PROJECT_STORAGE.projects[projectIndex].project_tasks.splice(
     taskArrayIndex,
@@ -435,8 +437,9 @@ export function taskDoneFunction() {
           task.due === task_Done_Due
         );
       });
-
-      console.log("taskDoneFunction", taskArrayIndex);
+      console.log("taskDoneFunction-taskIndex", taskIndex);
+      console.log("taskDoneFunction-projectIndex", projectIndex);
+      console.log("taskDoneFunction-taskArrayIndex", taskArrayIndex);
 
       if (
         PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex]
@@ -480,6 +483,7 @@ const close_detail_section_btn = document.querySelector(
 // ******
 let editTaskTitle = undefined;
 let editTaskDue = undefined;
+let editTaskProject = undefined;
 export function seeTaskDetailsFunction() {
   const task_details_boxes = document.querySelectorAll(".edit-box");
   const task_detail_title = document.querySelector(".task-detail-title-p");
@@ -510,6 +514,7 @@ export function seeTaskDetailsFunction() {
       // *****
       editTaskTitle = title;
       editTaskDue = due;
+
       // ****
 
       // task index in the Tasks array
@@ -534,9 +539,9 @@ export function seeTaskDetailsFunction() {
         );
       });
 
-      // console.log(TASKS_STORAGE);
-      // console.log(PROJECT_STORAGE);
-      console.log("seeTaskDetailsFunction", taskArrayIndex);
+      console.log("seeTaskDetailsFunction-taskIndex", taskIndex);
+      console.log("seeTaskDetailsFunction-projectIndex", projectIndex);
+      console.log("seeTaskDetailsFunction-taskArrayIndex", taskArrayIndex);
 
       task_detail_title.textContent =
         PROJECT_STORAGE.projects[projectIndex].project_tasks[
@@ -546,6 +551,11 @@ export function seeTaskDetailsFunction() {
         PROJECT_STORAGE.projects[projectIndex].project_tasks[
           taskArrayIndex
         ].project;
+
+      editTaskProject =
+        PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex]
+          .project;
+      console.log(editTaskProject);
       task_detail_priority.textContent =
         PROJECT_STORAGE.projects[projectIndex].project_tasks[
           taskArrayIndex
@@ -601,13 +611,20 @@ function handleCloseEditModalClick() {
   removePriorityClickListener();
   task_detail_section.classList.add("hidden");
   overlay.classList = "overlay hidden";
-  // task_details_boxes.forEach((element) => {
-  //   element.firstElementChild.checked = false;
-  // });
+
   addTaskBtn.removeEventListener("click", handleAddTaskClickEdit);
 }
 
 function handleAddTaskClickEdit() {
+  // *****************
+  const task_detail_title = document.querySelector(".task-detail-title-p");
+  const task_detail_project = document.querySelector(".task-detail-project-p");
+  const task_detail_priority = document.querySelector(
+    ".task-detail-priority-p"
+  );
+  const task_detail_due = document.querySelector(".task-detail-due-p");
+  const task_detail_message = document.querySelector(".task-detail-message-p");
+  // ****************
   PROJECT_STORAGE = getLocalStorageObject("Projects");
   TASKS_STORAGE = getLocalStorageObject("Tasks");
   if (isPrioritySelected() && isProjectSelected() && isTaskTitleLegit()) {
@@ -628,28 +645,45 @@ function handleAddTaskClickEdit() {
 
     // Project index nr in the Projects
     let projectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
-      return project.project_name === TASKS_STORAGE.tasks[taskIndex].project;
+      return project.project_name === obj.project;
     });
 
-    // Task array index in the project
-    let taskArrayIndex = PROJECT_STORAGE.projects[
-      projectIndex
+    let projectIndexOld = PROJECT_STORAGE.projects.findIndex((project) => {
+      return project.project_name === editTaskProject;
+    });
+
+    let taskArrayIndexOld = PROJECT_STORAGE.projects[
+      projectIndexOld
     ].project_tasks.findIndex((task) => {
       return (
-        task.project === PROJECT_STORAGE.projects[projectIndex].project_name &&
         task.title === editTaskTitle &&
-        task.due === editTaskDue
+        task.due === editTaskDue &&
+        task.project === editTaskProject
       );
     });
+
+    console.log("taskArrayIndexOld", taskArrayIndexOld);
+
+    PROJECT_STORAGE.projects[projectIndexOld].project_tasks.splice(
+      taskArrayIndexOld,
+      1
+    );
+
+    task_detail_title.textContent = obj.title;
+    task_detail_project.textContent = obj.project;
+    task_detail_priority.textContent = obj.priority;
+    task_detail_due.textContent = obj.due;
+    task_detail_message.textContent = obj.message;
+
     if (checkForTitleDuplicate(obj.title, obj.due, obj.project) === false) {
       // ***************
-      PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex] =
-        obj;
+      PROJECT_STORAGE.projects[projectIndex].project_tasks.push(obj);
+
       TASKS_STORAGE.tasks[taskIndex] = obj;
       pushDataToLocalStorage("Projects", PROJECT_STORAGE);
       pushDataToLocalStorage("Tasks", TASKS_STORAGE);
       // **************
-      // ******
+      // *************
       setTimeout(function () {
         addTaskModalSection.classList.add("hidden");
         overlay.classList.add("hidden");
@@ -668,7 +702,7 @@ function handleAddTaskClickEdit() {
       checkForTitleDuplicate(obj.title, obj.due, obj.project) === true
     ) {
       window.alert("You already have this task on the selected date");
-      resetAddTaskValues();
+      return;
     }
   } else if (!isTaskTitleLegit()) {
     taskTitle.classList.add("inputNotValid");
