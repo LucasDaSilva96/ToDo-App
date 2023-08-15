@@ -1,5 +1,5 @@
 import { PROJECT } from "./classes.js";
-import { TASK } from "./classes.js";
+
 const addProjectBtn = document.querySelector(".add");
 const projectInputField = document.getElementById("project-input");
 const projectsListContainer = document.querySelector(".projects-list-box");
