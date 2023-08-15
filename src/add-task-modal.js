@@ -317,7 +317,7 @@ function addHandleRemoveTaskClick(event) {
 
 const date_containers = document.querySelectorAll(".calender-box-container");
 
-function checkWhichDayIsClicked() {
+export function checkWhichDayIsClicked() {
   date_containers.forEach((el) => {
     if (el.dataset.clicked === "true") {
       renderTaskHomePage(
