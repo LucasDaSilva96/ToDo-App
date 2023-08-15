@@ -20,6 +20,7 @@ const day_6_name = document.querySelector(".day-6-name");
 const day_6_nr = document.querySelector(".day-6-nr");
 
 const currentDateDiv = document.querySelector(".current-date");
+const currentDayDiv = document.querySelector(".current-day");
 
 export function setCalenderDates() {
   const day_0 = getNextDays(0);
@@ -30,10 +31,10 @@ export function setCalenderDates() {
   const day_5 = getNextDays(5);
   const day_6 = getNextDays(6);
 
-  // Change the currentDateDiv to the current date i the right
+  // Change the currentDateDiv to the current date in the right
   // formate
   currentDateDiv.textContent = changeDateFormat(day_0);
-
+  currentDayDiv.textContent = getLongDayName();
   // This is for setting up the calender in the home-page
   day_0_name.textContent = getDayName(day_0);
   day_0_nr.textContent = getDayNr(day_0);
@@ -97,4 +98,20 @@ function toggleIsSelectedAttr() {
       }
     });
   });
+}
+
+function getLongDayName() {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const day = new Date();
+
+  const dayName = days[day.getDay()];
+  return dayName;
 }
