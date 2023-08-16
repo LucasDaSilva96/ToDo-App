@@ -1,6 +1,7 @@
 import { projectsExist } from "./classes.js";
 import { renderProjectSelections } from "./storage.js";
 import { TASK } from "./classes.js";
+import { renderPeriodTasks } from "./render-sidebar-task.js";
 
 const addTaskModalSection = document.querySelector(".add-task-modal-section");
 const overlay = document.querySelector(".overlay");
@@ -240,6 +241,9 @@ function handleAddTaskClick() {
     window.alert("Please fill all the necessary information.");
     return;
   }
+  if (closeModalSvg.dataset.navigation === "sideBar") {
+    renderPeriodTasks("today");
+  }
 }
 
 function AddTaskClick() {
@@ -369,6 +373,11 @@ function handleRemoveTaskClick(Element) {
   pushDataToLocalStorage("Projects", PROJECT_STORAGE);
 
   checkWhichDayIsClicked();
+
+  if (closeModalSvg.dataset.navigation === "sideBar") {
+    renderPeriodTasks("today");
+  }
+
   // ** end of function ** ↓
 }
 

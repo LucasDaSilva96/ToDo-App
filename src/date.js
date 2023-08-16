@@ -61,7 +61,7 @@ export function setCalenderDates() {
   toggleIsSelectedAttr();
 }
 
-function getNextDays(daysToAdd) {
+export function getNextDays(daysToAdd) {
   const date = new Date();
   const nextDay = new Date(date);
   nextDay.setDate(date.getDate() + daysToAdd);
@@ -78,7 +78,7 @@ function getDayNr(date) {
   return dateString.split(" ")[2];
 }
 
-function changeDateFormat(date) {
+export function changeDateFormat(date) {
   let dateString = `${date}`;
   let dateStringArray = dateString.split(" ");
   let result = `${dateStringArray[2]}|${dateStringArray[1]}|${dateStringArray[3]}`;

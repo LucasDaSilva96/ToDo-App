@@ -1,6 +1,9 @@
 import { getLocalStorageObject } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { renderProjects } from "./storage.js";
+import { renderPeriodTasks } from "./render-sidebar-task.js";
+
+const closeModalSvg = document.querySelector(".close-svg");
 
 export function removeProject(event) {
   if (event.target.nodeName === "path") return;
@@ -24,4 +27,8 @@ export function removeProject(event) {
   }
 
   pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+
+  if (closeModalSvg.dataset.navigation === "sideBar") {
+    renderPeriodTasks("today");
+  }
 }
