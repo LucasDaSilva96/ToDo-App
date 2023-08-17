@@ -277,7 +277,12 @@ body {
 }
 
 .task-msg-div {
-  overflow: hidden;
+  min-height: 2rem;
+  overflow: scroll;
+}
+
+.task-msg-div::-webkit-scrollbar {
+  display: none;
 }
 
 .task-msg-div p {
@@ -454,6 +459,18 @@ input[type="checkbox"]:checked {
   font-size: 20px;
 }
 
+.notis {
+  cursor: pointer;
+  border-bottom: 1.5px solid transparent;
+  transition: all 0.3s ease-in;
+}
+
+[data-period="true"] {
+  transform: scale(1.1);
+  border-bottom: 1.5px solid whitesmoke;
+  color: #000;
+}
+
 .remove-project-box {
   display: flex;
   align-items: center;
@@ -462,6 +479,7 @@ input[type="checkbox"]:checked {
   align-self: end;
   background-color: rgba(245, 245, 245, 0.452);
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .sideBar-home-div h2,
@@ -479,9 +497,8 @@ input[type="checkbox"]:checked {
 .task-nr-div p {
   font-size: 16px;
   color: #000;
-  padding: 0px 1px;
-  background-color: rgba(245, 245, 245, 0.486);
   border-radius: 2px;
+  margin-left: 10px;
 }
 
 .side-bar-task {

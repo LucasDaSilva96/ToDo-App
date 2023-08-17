@@ -2,8 +2,12 @@ import { getLocalStorageObject } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { renderProjects } from "./storage.js";
 import { renderPeriodTasks } from "./render-sidebar-task.js";
+import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
+import { renderTaskNr } from "./render-sidebar-task.js";
+import { seeTaskDetailsFunction } from "./add-task-modal.js";
 
 const closeModalSvg = document.querySelector(".close-svg");
+const sideBarperiods = document.querySelectorAll(".notis");
 
 export function removeProject(event) {
   if (event.target.nodeName === "path") return;
@@ -29,6 +33,9 @@ export function removeProject(event) {
   pushDataToLocalStorage("Tasks", TASKS_STORAGE);
 
   if (closeModalSvg.dataset.navigation === "sideBar") {
-    renderPeriodTasks("today");
+    renderTaskNr();
+    seeTaskDetailsFunction();
+
+    ProjectSideBarShowTasks();
   }
 }

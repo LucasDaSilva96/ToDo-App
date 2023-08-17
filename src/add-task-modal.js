@@ -1,7 +1,12 @@
 import { projectsExist } from "./classes.js";
 import { renderProjectSelections } from "./storage.js";
 import { TASK } from "./classes.js";
-import { renderPeriodTasks } from "./render-sidebar-task.js";
+import {
+  ProjectSideBarShowTasks,
+  renderPeriodTasks,
+} from "./render-sidebar-task.js";
+import { renderTaskNr } from "./render-sidebar-task.js";
+import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
 
 const addTaskModalSection = document.querySelector(".add-task-modal-section");
 const overlay = document.querySelector(".overlay");
@@ -242,7 +247,14 @@ function handleAddTaskClick() {
     return;
   }
   if (closeModalSvg.dataset.navigation === "sideBar") {
-    renderPeriodTasks("today");
+    sideBarperiods.forEach((el) => {
+      if (el.dataset.period === "true") {
+        renderPeriodTasks(el.textContent);
+        toggleIsSelectedSidebarAtrr(el.textContent);
+      }
+      renderTaskNr();
+      seeTaskDetailsFunction();
+    });
   }
 }
 
@@ -279,7 +291,9 @@ export function renderTaskHomePage(date) {
   for (let i = 0; i < taskStorage.tasks.length; i++) {
     if (taskStorage.tasks[i].due === date_1) {
       taskSectionHomePage.innerHTML += `
-       <div class="task-box ${taskStorage.tasks[i].priority}-priority">
+       <div class="task-box ${taskStorage.tasks[i].priority}-priority ${
+        taskStorage.tasks[i].done === true ? "task-done" : ""
+      }">
       <div class="task-title-div">
         <h3>${taskStorage.tasks[i].title}</h3>
         <h6>${taskStorage.tasks[i].due}</h6>
@@ -291,7 +305,9 @@ export function renderTaskHomePage(date) {
       
      <div class="task-opt-container">
         <div class="done-box">
-          <input class="task-done" type="checkbox" />
+          <input class="task-done" type="checkbox" ${
+            taskStorage.tasks[i].done === true ? "checked" : ""
+          }/>
         </div>
         <div class="edit-box">
           <input class="edit-task" type="checkbox" />
@@ -314,7 +330,7 @@ export function renderTaskHomePage(date) {
   // **************************************
 }
 
-function addHandleRemoveTaskClick(event) {
+export function addHandleRemoveTaskClick(event) {
   checkWhichDayIsClicked();
   handleRemoveTaskClick(event.target);
 }
@@ -333,7 +349,7 @@ export function checkWhichDayIsClicked() {
 
 let PROJECT_STORAGE = getLocalStorageObject("Projects");
 let TASKS_STORAGE = getLocalStorageObject("Tasks");
-function handleRemoveTaskClick(Element) {
+export function handleRemoveTaskClick(Element) {
   const title =
     Element.parentElement.parentElement.parentElement.firstElementChild
       .firstElementChild.textContent;
@@ -360,9 +376,6 @@ function handleRemoveTaskClick(Element) {
     );
   });
 
-  console.log("handleRemoveTaskClick-taskIndex", taskIndex);
-  console.log("handleRemoveTaskClick-projectIndex", projectIndex);
-  console.log("handleRemoveTaskClick-taskArrayIndex", taskArrayIndex);
   TASKS_STORAGE.tasks.splice(taskIndex, 1);
   PROJECT_STORAGE.projects[projectIndex].project_tasks.splice(
     taskArrayIndex,
@@ -375,7 +388,14 @@ function handleRemoveTaskClick(Element) {
   checkWhichDayIsClicked();
 
   if (closeModalSvg.dataset.navigation === "sideBar") {
-    renderPeriodTasks("today");
+    sideBarperiods.forEach((el) => {
+      if (el.dataset.period === "true") {
+        renderPeriodTasks(el.textContent);
+        toggleIsSelectedSidebarAtrr(el.textContent);
+      }
+      renderTaskNr();
+      seeTaskDetailsFunction();
+    });
   }
 
   // ** end of function ** ↓
@@ -446,9 +466,6 @@ export function taskDoneFunction() {
           task.due === task_Done_Due
         );
       });
-      console.log("taskDoneFunction-taskIndex", taskIndex);
-      console.log("taskDoneFunction-projectIndex", projectIndex);
-      console.log("taskDoneFunction-taskArrayIndex", taskArrayIndex);
 
       if (
         PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex]
@@ -489,6 +506,8 @@ const task_detail_section = document.querySelector(
 const close_detail_section_btn = document.querySelector(
   ".close-detail-modal-box"
 );
+const sideBarperiods = document.querySelectorAll(".notis");
+
 // ******
 let editTaskTitle = undefined;
 let editTaskDue = undefined;
@@ -548,10 +567,6 @@ export function seeTaskDetailsFunction() {
         );
       });
 
-      console.log("seeTaskDetailsFunction-taskIndex", taskIndex);
-      console.log("seeTaskDetailsFunction-projectIndex", projectIndex);
-      console.log("seeTaskDetailsFunction-taskArrayIndex", taskArrayIndex);
-
       task_detail_title.textContent =
         PROJECT_STORAGE.projects[projectIndex].project_tasks[
           taskArrayIndex
@@ -606,14 +621,32 @@ export function seeTaskDetailsFunction() {
   });
   closeModalSvg.addEventListener("click", handleCloseEditModalClick);
   //
-  close_detail_section_btn.addEventListener("click", function () {
-    task_detail_section.classList.add("hidden");
-    overlay.classList = "overlay hidden";
-    task_details_boxes.forEach((element) => {
-      element.firstElementChild.checked = false;
-    });
-  });
+  close_detail_section_btn.addEventListener(
+    "click",
+    handleAddCloseDetailSectionClick
+  );
   // ************
+}
+
+function handleAddCloseDetailSectionClick() {
+  const task_details_boxes = document.querySelectorAll(".edit-box");
+
+  sideBarperiods.forEach((el) => {
+    if (el.dataset.period === "true") {
+      renderPeriodTasks(el.textContent);
+      toggleIsSelectedSidebarAtrr(el.textContent);
+    }
+    renderTaskNr();
+    seeTaskDetailsFunction();
+  });
+
+  task_detail_section.classList.add("hidden");
+  overlay.classList = "overlay hidden";
+  console.log("sideBar");
+  task_details_boxes.forEach((element) => {
+    element.firstElementChild.checked = false;
+  });
+  taskDoneFunction();
 }
 
 function handleCloseEditModalClick() {
@@ -670,8 +703,6 @@ function handleAddTaskClickEdit() {
         task.project === editTaskProject
       );
     });
-
-    console.log("taskArrayIndexOld", taskArrayIndexOld);
 
     PROJECT_STORAGE.projects[projectIndexOld].project_tasks.splice(
       taskArrayIndexOld,

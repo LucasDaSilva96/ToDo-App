@@ -1,5 +1,8 @@
 import { PROJECT } from "./classes.js";
 import { removeProject } from "./remove-project.js";
+import { getLocalStorageObject } from "./add-task-modal.js";
+import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
+
 const addProjectBtn = document.querySelector(".add");
 const projectInputField = document.getElementById("project-input");
 const projectsListContainer = document.querySelector(".projects-list-box");
@@ -10,7 +13,7 @@ let projectName = undefined;
 let projectObj;
 
 export function renderProjects() {
-  const data = JSON.parse(window.localStorage.getItem("Projects"));
+  const data = getLocalStorageObject("Projects");
   projectsListContainer.innerHTML = ``;
   for (let i = 0; i < data.projects.length; i++) {
     if (data.projects[i].project_name === "General") {
@@ -55,7 +58,7 @@ export function renderProjects() {
 }
 
 export function renderProjectSelections() {
-  const data = JSON.parse(window.localStorage.getItem("Projects"));
+  const data = getLocalStorageObject("Projects");
   selectProjectHtml.innerHTML = `
   <option class="hidden" selected disabled>Select Project</option>`;
   for (let i = 0; i < data.projects.length; i++) {
@@ -71,16 +74,26 @@ export function projectInputListener() {
   });
 
   addProjectBtn.addEventListener("click", function () {
-    if (projectName !== undefined) {
+    if (
+      projectName !== undefined ||
+      (projectName !== null && checkProjectDuplicate(projectName) === false)
+    ) {
       projectObj = new PROJECT(projectName);
       projectObj.saveToLocalStorage();
       projectInputContainer.classList.add("hidden");
       openProjectInputBtn.classList.remove("hidden");
       renderProjects();
       projectName = undefined;
+    } else if (projectName === undefined) {
+      window.alert("Invalid project name");
+      return;
+    } else if (checkProjectDuplicate(projectName) === true) {
+      window.alert("You already have this project");
+      return;
     } else {
       return;
     }
+    ProjectSideBarShowTasks();
   });
 }
 
@@ -99,10 +112,24 @@ export function setLocalStorage() {
   const storageTasks = {
     tasks: [],
   };
-  if (window.localStorage.getItem("Projects") === null) {
+  if (getLocalStorageObject("Projects") === null) {
     window.localStorage.setItem("Projects", JSON.stringify(storageObj));
   }
-  if (window.localStorage.getItem("Tasks") === null) {
+  if (getLocalStorageObject("Tasks") === null) {
     window.localStorage.setItem("Tasks", JSON.stringify(storageTasks));
+  }
+}
+
+function checkProjectDuplicate(projectName) {
+  let PROJECT_STORAGE = getLocalStorageObject("Projects");
+
+  let index = PROJECT_STORAGE.projects.findIndex((index) => {
+    return index.project_name === projectName;
+  });
+  console.log(index);
+  if (index < 0) {
+    return true;
+  } else {
+    return false;
   }
 }
