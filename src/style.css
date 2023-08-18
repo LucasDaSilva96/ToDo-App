@@ -459,6 +459,10 @@ input[type="checkbox"]:checked {
   font-size: 20px;
 }
 
+[data-project="true"] {
+  color: #000;
+}
+
 .notis {
   cursor: pointer;
   border-bottom: 1.5px solid transparent;

@@ -2,6 +2,8 @@ import { PROJECT } from "./classes.js";
 import { removeProject } from "./remove-project.js";
 import { getLocalStorageObject } from "./add-task-modal.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
+import { renderProjectTasks } from "./render-sidebar-task.js";
+import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
 
 const addProjectBtn = document.querySelector(".add");
 const projectInputField = document.getElementById("project-input");
@@ -18,7 +20,7 @@ export function renderProjects() {
   for (let i = 0; i < data.projects.length; i++) {
     if (data.projects[i].project_name === "General") {
       projectsListContainer.innerHTML += `
-      <div class="project-box" id="${data.projects[i].project_name}">
+      <div class="project-box" id="${data.projects[i].project_name}" data-project="false">
           <h4>${data.projects[i].project_name}</h4>
             <div class="task-nr-div">
                   <p class="task-nr-p"></p>
@@ -26,7 +28,7 @@ export function renderProjects() {
       </div> `;
     } else {
       projectsListContainer.innerHTML += `
-      <div class="project-box" id="${data.projects[i].project_name}">
+      <div class="project-box" id="${data.projects[i].project_name}" data-project="false">
       <h4>${data.projects[i].project_name}</h4>
       <div class="task-nr-div">
         <p class="task-nr-p"></p>
@@ -53,7 +55,9 @@ export function renderProjects() {
   }
   const removeProjectDivs = document.querySelectorAll(".remove-project-svg");
   removeProjectDivs.forEach((el) => {
-    el.addEventListener("click", removeProject);
+    el.addEventListener("click", function () {
+      removeProject(el);
+    });
   });
 }
 
@@ -74,9 +78,12 @@ export function projectInputListener() {
   });
 
   addProjectBtn.addEventListener("click", function () {
-    if (
-      projectName !== undefined ||
-      (projectName !== null && checkProjectDuplicate(projectName) === false)
+    if (projectName === undefined || projectName === "") {
+      window.alert("Invalid project name");
+      return;
+    } else if (
+      projectName !== undefined &&
+      checkProjectDuplicate(projectName) === false
     ) {
       projectObj = new PROJECT(projectName);
       projectObj.saveToLocalStorage();
@@ -84,9 +91,6 @@ export function projectInputListener() {
       openProjectInputBtn.classList.remove("hidden");
       renderProjects();
       projectName = undefined;
-    } else if (projectName === undefined) {
-      window.alert("Invalid project name");
-      return;
     } else if (checkProjectDuplicate(projectName) === true) {
       window.alert("You already have this project");
       return;
@@ -120,16 +124,15 @@ export function setLocalStorage() {
   }
 }
 
-function checkProjectDuplicate(projectName) {
+function checkProjectDuplicate(projectData) {
   let PROJECT_STORAGE = getLocalStorageObject("Projects");
 
   let index = PROJECT_STORAGE.projects.findIndex((index) => {
-    return index.project_name === projectName;
+    return index.project_name === projectData;
   });
-  console.log(index);
-  if (index < 0) {
-    return true;
-  } else {
+  if (index === -1) {
     return false;
+  } else if (index >= 0) {
+    return true;
   }
 }

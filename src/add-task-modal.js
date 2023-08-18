@@ -4,9 +4,11 @@ import { TASK } from "./classes.js";
 import {
   ProjectSideBarShowTasks,
   renderPeriodTasks,
+  toggleProjectSelectedSidebarAtrr,
 } from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
+import { renderProjectTasks } from "./render-sidebar-task.js";
 
 const addTaskModalSection = document.querySelector(".add-task-modal-section");
 const overlay = document.querySelector(".overlay");

@@ -10,6 +10,7 @@ import { seeTaskDetailsFunction } from "./add-task-modal.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
+import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
 
 // *******
 const sideBar_today = document.querySelector(".sideBar-today");
@@ -40,6 +41,7 @@ export function menuSlider() {
     // ***
     if (closeModalSvg.dataset.navigation === "sideBar") {
       sideBar_today.addEventListener("click", function () {
+        toggleProjectSelectedSidebarAtrr("none");
         renderPeriodTasks("Today");
         toggleIsSelectedSidebarAtrr("Today");
         renderTaskNr();
@@ -54,6 +56,7 @@ export function menuSlider() {
         taskDoneFunction();
       });
       sideBar_month.addEventListener("click", function () {
+        toggleProjectSelectedSidebarAtrr("none");
         renderPeriodTasks("Month");
         toggleIsSelectedSidebarAtrr("Month");
         renderTaskNr();

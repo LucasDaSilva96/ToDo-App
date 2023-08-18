@@ -5,16 +5,14 @@ import { renderPeriodTasks } from "./render-sidebar-task.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
-
+import { renderProjectTasks } from "./render-sidebar-task.js";
+import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
 const closeModalSvg = document.querySelector(".close-svg");
-const sideBarperiods = document.querySelectorAll(".notis");
 
 export function removeProject(event) {
-  if (event.target.nodeName === "path") return;
   let PROJECT_STORAGE = getLocalStorageObject("Projects");
   let TASKS_STORAGE = getLocalStorageObject("Tasks");
-  const project_title =
-    event.target.parentElement.parentElement.firstElementChild.textContent;
+  const project_title = event.parentElement.parentElement.id;
 
   let findProjectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
     return project.project_name === project_title;

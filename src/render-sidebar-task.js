@@ -186,13 +186,84 @@ export function toggleIsSelectedSidebarAtrr(period) {
 }
 
 export function ProjectSideBarShowTasks() {
-  let PROJECT_STORAGE = getLocalStorageObject("Projects");
   const projectsSidebarHeadings = document.querySelectorAll(".project-box");
 
-  console.log(projectsSidebarHeadings[1]);
   projectsSidebarHeadings.forEach((element) => {
     element.addEventListener("click", function () {
+      console.log("HELLO");
+      toggleProjectSelectedSidebarAtrr(element.id);
       sideBar_tasks_container_heading.textContent = element.id;
+      toggleIsSelectedSidebarAtrr("none");
+      renderProjectTasks(element.id);
     });
   });
+}
+
+export function toggleProjectSelectedSidebarAtrr(data) {
+  const projectsSidebarHeadings = document.querySelectorAll(".project-box");
+  projectsSidebarHeadings.forEach((el) => {
+    if (el.id === data) {
+      el.dataset.project = "true";
+    } else {
+      el.dataset.project = "false";
+    }
+  });
+}
+
+export function renderProjectTasks(data_id) {
+  let PROJECT_STORAGE = getLocalStorageObject("Projects");
+  sideBarTaskContainer.innerHTML = "";
+
+  let index = PROJECT_STORAGE.projects.findIndex((element) => {
+    return element.project_name === data_id;
+  });
+
+  if (index >= 0) {
+    if (PROJECT_STORAGE.projects[index].project_tasks.length >= 1) {
+      for (
+        let i = 0;
+        i < PROJECT_STORAGE.projects[index].project_tasks.length;
+        i++
+      ) {
+        sideBarTaskContainer.innerHTML += `
+      <div class="task-box side-bar-task ${
+        PROJECT_STORAGE.projects[index].project_tasks[i].priority
+      }-priority ${
+          PROJECT_STORAGE.projects[index].project_tasks[i].done === true
+            ? "task-done"
+            : ""
+        }">
+      <div class="task-title-div">
+      <h3>${PROJECT_STORAGE.projects[index].project_tasks[i].title}</h3>
+      <h6>${PROJECT_STORAGE.projects[index].project_tasks[i].due}</h6>
+      </div>
+      <div class="task-msg-div">
+      <p>${PROJECT_STORAGE.projects[index].project_tasks[i].message}</p>
+      </div>
+      <div class="task-opt-container">
+      <div class="done-box">
+      <input class="task-done" type="checkbox" ${
+        PROJECT_STORAGE.projects[index].project_tasks[i].done === true
+          ? "checked"
+          : ""
+      } />
+      </div>
+      <div class="edit-box">
+      <input class="edit-task" type="checkbox" />
+      </div>
+      <div class="remove-box">
+      <input class="remove-task" type="checkbox" />
+      </div>
+      </div>
+      </div>
+      `;
+      }
+    } else {
+      sideBarTaskContainer.innerHTML = `
+      <h3 class"notask">No task added to this project</h3>
+      `;
+    }
+  } else {
+    return;
+  }
 }
