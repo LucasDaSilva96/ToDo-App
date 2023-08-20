@@ -1,12 +1,10 @@
-import { getLocalStorageObject } from "./add-task-modal.js";
+import { getLocalStorageObject, taskDoneFunction } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { renderProjects } from "./storage.js";
-import { renderPeriodTasks } from "./render-sidebar-task.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
-import { renderProjectTasks } from "./render-sidebar-task.js";
-import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
+
 const closeModalSvg = document.querySelector(".close-svg");
 
 export function removeProject(event) {
@@ -33,7 +31,7 @@ export function removeProject(event) {
   if (closeModalSvg.dataset.navigation === "sideBar") {
     renderTaskNr();
     seeTaskDetailsFunction();
-
     ProjectSideBarShowTasks();
+    taskDoneFunction();
   }
 }

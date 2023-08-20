@@ -2,6 +2,8 @@ import { getLocalStorageObject } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { getNextDays } from "./date.js";
 import { addHandleRemoveTaskClick } from "./add-task-modal.js";
+import { seeTaskDetailsFunction } from "./add-task-modal.js";
+import { taskDoneFunction } from "./add-task-modal.js";
 
 const sideBarTaskContainer = document.querySelector(
   ".sideBar-display-tasks-box"
@@ -9,6 +11,7 @@ const sideBarTaskContainer = document.querySelector(
 const sideBar_tasks_container_heading = document.querySelector(
   ".siderBar-tasks-heading"
 );
+const closeModalSvg = document.querySelector(".close-svg");
 
 let todayCounter = 0;
 let weekCounter = 0;
@@ -99,8 +102,8 @@ export function renderPeriodTasks(period) {
     }
     //
   } else if (period === "Month") {
+    sideBar_tasks_container_heading.textContent = "Month";
     for (let i = 0; i < TASKS_STORAGE.tasks.length; i++) {
-      sideBar_tasks_container_heading.textContent = "Month";
       let monthDue = `${TASKS_STORAGE.tasks[i].due}`.split("-")[1];
 
       if (monthDue === month) {
@@ -190,11 +193,13 @@ export function ProjectSideBarShowTasks() {
 
   projectsSidebarHeadings.forEach((element) => {
     element.addEventListener("click", function () {
-      console.log("HELLO");
       toggleProjectSelectedSidebarAtrr(element.id);
       sideBar_tasks_container_heading.textContent = element.id;
       toggleIsSelectedSidebarAtrr("none");
       renderProjectTasks(element.id);
+      renderTaskNr();
+      seeTaskDetailsFunction();
+      taskDoneFunction();
     });
   });
 }
@@ -258,6 +263,7 @@ export function renderProjectTasks(data_id) {
       </div>
       `;
       }
+      addRemoveTaskSideBarProject();
     } else {
       sideBarTaskContainer.innerHTML = `
       <h3 class"notask">No task added to this project</h3>
@@ -265,5 +271,74 @@ export function renderProjectTasks(data_id) {
     }
   } else {
     return;
+  }
+}
+
+function addRemoveTaskSideBarProject() {
+  const remove_task_boxes = document.querySelectorAll(".remove-box");
+
+  remove_task_boxes.forEach((el) => {
+    el.addEventListener("click", function () {
+      removeTaskSideBarProject(el);
+    });
+  });
+}
+
+function removeTaskSideBarProject(element) {
+  let PROJECT_STORAGE = getLocalStorageObject("Projects");
+  let TASKS_STORAGE = getLocalStorageObject("Tasks");
+  const title =
+    element.parentElement.parentElement.parentElement.firstElementChild
+      .firstElementChild.firstElementChild.textContent;
+
+  const due =
+    element.parentElement.parentElement.parentElement.firstElementChild
+      .firstElementChild.lastElementChild.textContent;
+
+  // TASKS Storage
+  let taskIndex = TASKS_STORAGE.tasks.findIndex((element) => {
+    return element.title === title && element.due === due;
+  });
+  // PROJECTS storage
+  let projectIndex = PROJECT_STORAGE.projects.findIndex((project) => {
+    return project.project_name === TASKS_STORAGE.tasks[taskIndex].project;
+  });
+
+  let taskArrayIndex = PROJECT_STORAGE.projects[
+    projectIndex
+  ].project_tasks.findIndex((task) => {
+    return (
+      task.project === PROJECT_STORAGE.projects[projectIndex].project_name &&
+      task.title === title &&
+      task.due === due
+    );
+  });
+
+  TASKS_STORAGE.tasks.splice(taskIndex, 1);
+  PROJECT_STORAGE.projects[projectIndex].project_tasks.splice(
+    taskArrayIndex,
+    1
+  );
+
+  pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+  pushDataToLocalStorage("Projects", PROJECT_STORAGE);
+
+  if (closeModalSvg.dataset.navigation === "sideBar") {
+    sideBarperiods.forEach((el) => {
+      if (el.dataset.period === "true") {
+        renderPeriodTasks(el.textContent);
+        toggleIsSelectedSidebarAtrr(el.textContent);
+      }
+      renderTaskNr();
+      seeTaskDetailsFunction();
+    });
+    const projectsSidebarHeadings = document.querySelectorAll(".project-box");
+    projectsSidebarHeadings.forEach((el) => {
+      if (el.dataset.project === "true") {
+        renderProjectTasks(el.id);
+      } else {
+        renderProjectTasks("General");
+      }
+    });
   }
 }

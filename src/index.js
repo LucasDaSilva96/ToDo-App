@@ -15,6 +15,8 @@ import { addTaskFunction } from "./add-task-modal.js";
 import { renderTaskHomePage } from "./add-task-modal.js";
 import { taskDoneFunction } from "./add-task-modal.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
+import { getLocalStorageObject } from "./add-task-modal.js";
+import { pushDataToLocalStorage } from "./add-task-modal.js";
 
 // ******
 let day_nr = undefined;
@@ -48,6 +50,7 @@ projectInputListener();
 
 window.addEventListener("DOMContentLoaded", function () {
   setLocalStorage();
+  removeDoneTaskFromLocalStorage();
   changeCalenderValue();
   renderTaskHomePage(0);
   // EDIT LATER ↓
@@ -85,3 +88,31 @@ calenderBoxes.forEach((el) => {
     seeTaskDetailsFunction();
   });
 });
+
+function removeDoneTaskFromLocalStorage() {
+  const PROJECT_STORAGE = getLocalStorageObject("Projects");
+  const TASKS_STORAGE = getLocalStorageObject("Tasks");
+
+  for (let i = TASKS_STORAGE.tasks.length - 1; i >= 0; i--) {
+    if (TASKS_STORAGE.tasks[i].done === true) {
+      TASKS_STORAGE.tasks.splice(i, 1);
+    }
+  }
+
+  for (let x = PROJECT_STORAGE.projects.length - 1; x >= 0; x--) {
+    if (PROJECT_STORAGE.projects[x].project_tasks.length >= 1) {
+      for (
+        let y = PROJECT_STORAGE.projects[x].project_tasks.length - 1;
+        y >= 0;
+        y--
+      ) {
+        console.log(PROJECT_STORAGE.projects[x].project_tasks[y].done);
+        if (PROJECT_STORAGE.projects[x].project_tasks[y].done === true) {
+          PROJECT_STORAGE.projects[x].project_tasks.splice(y, 1);
+        }
+      }
+    }
+  }
+  pushDataToLocalStorage("Tasks", TASKS_STORAGE);
+  pushDataToLocalStorage("Projects", PROJECT_STORAGE);
+}

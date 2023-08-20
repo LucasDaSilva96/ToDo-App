@@ -1,14 +1,10 @@
 import { projectsExist } from "./classes.js";
 import { renderProjectSelections } from "./storage.js";
 import { TASK } from "./classes.js";
-import {
-  ProjectSideBarShowTasks,
-  renderPeriodTasks,
-  toggleProjectSelectedSidebarAtrr,
-} from "./render-sidebar-task.js";
+import { renderPeriodTasks } from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
-import { renderProjectTasks } from "./render-sidebar-task.js";
+import { renderSelectedProject } from "./storage.js";
 
 const addTaskModalSection = document.querySelector(".add-task-modal-section");
 const overlay = document.querySelector(".overlay");
@@ -203,8 +199,12 @@ function handleAddTaskClick() {
     );
 
     if (
-      checkForTitleDuplicate(newTask.task_title, newTask.task_due, project) ===
-      false
+      checkForTitleDuplicate(
+        newTask.task_title,
+        newTask.task_due,
+        project,
+        newTask.task_priority
+      ) === false
     ) {
       newTask.saveTaskToProject();
       // ******
@@ -223,8 +223,12 @@ function handleAddTaskClick() {
       }, 100);
       // ******
     } else if (
-      checkForTitleDuplicate(newTask.task_title, newTask.task_due, project) ===
-      true
+      checkForTitleDuplicate(
+        newTask.task_title,
+        newTask.task_due,
+        project,
+        newTask.task_priority
+      ) === true
     ) {
       window.alert("You already have this task on the selected date & project");
       resetAddTaskValues();
@@ -264,13 +268,14 @@ function AddTaskClick() {
   addTaskBtn.addEventListener("click", handleAddTaskClick);
 }
 
-function checkForTitleDuplicate(title, dueDate, project) {
+function checkForTitleDuplicate(title, dueDate, project, priority) {
   const data = getLocalStorageObject("Tasks");
   let index = data.tasks.findIndex((element) => {
     return (
       element.title === title &&
       element.due === dueDate &&
-      element.project === project
+      element.project === project &&
+      element.priority === priority
     );
   });
 
@@ -581,7 +586,6 @@ export function seeTaskDetailsFunction() {
       editTaskProject =
         PROJECT_STORAGE.projects[projectIndex].project_tasks[taskArrayIndex]
           .project;
-      console.log(editTaskProject);
       task_detail_priority.textContent =
         PROJECT_STORAGE.projects[projectIndex].project_tasks[
           taskArrayIndex
@@ -595,10 +599,15 @@ export function seeTaskDetailsFunction() {
           taskArrayIndex
         ].message;
 
+      console.log(selectProjectHtml);
+
       edit_task_btn.addEventListener("click", function () {
         addTaskModalSection.classList.remove("hidden");
         // ************
         project = selectProjectHtml.value;
+        // ***
+        // ***
+
         taskTitle.value = task_detail_title.textContent;
         taskMessage.value = task_detail_message.textContent;
         dueDateCalender.value = task_detail_due.textContent;
@@ -607,12 +616,10 @@ export function seeTaskDetailsFunction() {
         selectProjectHtml.addEventListener("change", function () {
           project = selectProjectHtml.value;
         });
-        // taskTitle.addEventListener("input", function () {
-        //   taskTitle = taskTitle.value;
-        // });
 
         // **********
-        renderProjectSelections();
+        // renderProjectSelections();
+        renderSelectedProject(editTaskProject);
 
         // *************
         addPriorityClickListener();
@@ -640,11 +647,12 @@ function handleAddCloseDetailSectionClick() {
     }
     renderTaskNr();
     seeTaskDetailsFunction();
+    taskDoneFunction();
   });
 
   task_detail_section.classList.add("hidden");
   overlay.classList = "overlay hidden";
-  console.log("sideBar");
+
   task_details_boxes.forEach((element) => {
     element.firstElementChild.checked = false;
   });
@@ -717,7 +725,10 @@ function handleAddTaskClickEdit() {
     task_detail_due.textContent = obj.due;
     task_detail_message.textContent = obj.message;
 
-    if (checkForTitleDuplicate(obj.title, obj.due, obj.project) === false) {
+    if (
+      checkForTitleDuplicate(obj.title, obj.due, obj.project, obj.priority) ===
+      false
+    ) {
       // ***************
       PROJECT_STORAGE.projects[projectIndex].project_tasks.push(obj);
 
@@ -741,7 +752,8 @@ function handleAddTaskClickEdit() {
       }, 100);
       // ******
     } else if (
-      checkForTitleDuplicate(obj.title, obj.due, obj.project) === true
+      checkForTitleDuplicate(obj.title, obj.due, obj.project, obj.priority) ===
+      true
     ) {
       window.alert("You already have this task on the selected date");
       return;

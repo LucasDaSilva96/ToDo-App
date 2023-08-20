@@ -2,8 +2,6 @@ import { PROJECT } from "./classes.js";
 import { removeProject } from "./remove-project.js";
 import { getLocalStorageObject } from "./add-task-modal.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
-import { renderProjectTasks } from "./render-sidebar-task.js";
-import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
 
 const addProjectBtn = document.querySelector(".add");
 const projectInputField = document.getElementById("project-input");
@@ -68,6 +66,18 @@ export function renderProjectSelections() {
   for (let i = 0; i < data.projects.length; i++) {
     selectProjectHtml.innerHTML += `
   <option value="${data.projects[i].project_name}">${data.projects[i].project_name}</option>
+  `;
+  }
+}
+
+export function renderSelectedProject(projectName) {
+  const data = getLocalStorageObject("Projects");
+  selectProjectHtml.innerHTML = "";
+  for (let i = 0; i < data.projects.length; i++) {
+    selectProjectHtml.innerHTML += `
+  <option value="${data.projects[i].project_name}" ${
+      projectName === data.projects[i].project_name ? "selected" : ""
+    }>${data.projects[i].project_name}</option>
   `;
   }
 }
