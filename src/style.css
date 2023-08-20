@@ -459,6 +459,10 @@ input[type="checkbox"]:checked {
   font-size: 20px;
 }
 
+.project-box {
+  cursor: pointer;
+}
+
 [data-project="true"] {
   color: #000;
 }
@@ -569,7 +573,7 @@ input[type="checkbox"]:checked {
 .projects-list-box {
   overflow-y: scroll;
   overflow-x: hidden;
-  max-height: 6rem;
+  max-height: 8rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
