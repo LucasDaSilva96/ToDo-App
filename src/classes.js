@@ -1,11 +1,14 @@
+// *** Import Statements
 import { getLocalStorageObject } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
+// *******
 // Project class
 export class PROJECT {
   constructor(projectName) {
     this.projectName = projectName;
   }
 
+  // This function is for saving the project to the LocalStorage
   saveToLocalStorage() {
     const obj = {
       project_name: this.projectName,
@@ -25,6 +28,8 @@ export class TASK {
     this.task_priority = task_priority;
   }
 
+  // This function is for saving the the task to the localStorage &&
+  // saving the task inside the right project
   saveTaskToProject() {
     const obj = {
       title: this.task_title,
@@ -50,6 +55,7 @@ export class TASK {
   }
 }
 
+// This function is for saving the project to the localStorage
 function storage(project) {
   let data = getLocalStorageObject("Projects");
 
@@ -58,6 +64,7 @@ function storage(project) {
   return pushDataToLocalStorage("Projects", data);
 }
 
+// This function is for checking if there is a Project key saved in the localStorage
 export function projectsExist() {
   const projects = getLocalStorageObject("Projects");
 

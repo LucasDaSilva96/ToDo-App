@@ -1,7 +1,14 @@
+// *** DOM Selections
 const currentPLace = document.querySelector(".current-place");
 const currentTemp = document.querySelector(".temp-nr");
+// *****
+
+// These variables are for saving the latitude && longitude
 let latitude;
 let longitude;
+
+// This function is for getting the user's position and then use the
+// geoapify API to get the name of the country and city
 export function getUserLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -31,6 +38,8 @@ export function getUserLocation() {
     currentPLace.textContent = "Unknown";
   }
 }
+// This function is for getting the user's position and then use the
+// openweathermap API to get the current temperature based on the latitude and longitude of the user
 function getCurrentTemp(lat, long) {
   const API_KEY = `64eda751657841e56332c0e524e654b6`;
   const API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`;

@@ -1,3 +1,4 @@
+// *** Import Statement ***
 import { getLocalStorageObject, taskDoneFunction } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { renderProjects } from "./storage.js";
@@ -7,9 +8,12 @@ import {
 } from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
+// ******
 
 const closeModalSvg = document.querySelector(".close-svg");
 
+// This function is for removing the select project in the sidebar &&
+// invoking all necessary functions in order to "refresh" the UI
 export function removeProject(event) {
   let PROJECT_STORAGE = getLocalStorageObject("Projects");
   let TASKS_STORAGE = getLocalStorageObject("Tasks");

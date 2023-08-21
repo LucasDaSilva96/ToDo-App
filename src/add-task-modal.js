@@ -1,3 +1,4 @@
+// *** Import Statement ***
 import { projectsExist } from "./classes.js";
 import { renderProjectSelections } from "./storage.js";
 import { TASK } from "./classes.js";
@@ -9,13 +10,42 @@ import {
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
 import { renderSelectedProject } from "./storage.js";
+// *************
 
+// ** DOM Selections ***
 const addTaskModalSection = document.querySelector(".add-task-modal-section");
 const overlay = document.querySelector(".overlay");
 const closeModalSvg = document.querySelector(".close-svg");
 const sideBarSection = document.querySelector(".sideBar-section");
+const openProjectInputBtn = document.querySelector(".add-project-svg");
+const projectInputContainer = document.querySelector(".project-input-div");
+const cancelAddProjectBtn = document.querySelector(".cancel");
+const projectInputField = document.getElementById("project-input");
+const selectProjectHtml = document.getElementById("project-selection");
+const priorityDivs = document.querySelectorAll(".priority");
+let taskTitle = document.querySelector(".title");
+const taskMessage = document.getElementById("message");
+const defaultProjectSelected = document.querySelector(".default-opt");
+const addTaskBtn = document.querySelector(".add-task-box");
+const priorityContainer = document.querySelector(".priority-div");
+const taskSectionHomePage = document.querySelector(".task-section");
+const task_detail_section = document.querySelector(
+  ".task-detail-modal-section"
+);
+const close_detail_section_btn = document.querySelector(
+  ".close-detail-modal-box"
+);
+const sideBarperiods = document.querySelectorAll(".notis");
+const dueDateCalender = document.getElementById("calender");
+const date_containers = document.querySelectorAll(".calender-box-container");
+// *******
+
+// *** This variable is for saving the TASK
 let newTask;
 
+// This function enable the user to close the
+// add task modal and render the right UI based on
+// where in the app the user is/were
 export function closeAddTaskModal() {
   closeModalSvg.addEventListener("click", function () {
     if (closeModalSvg.dataset.navigation === "home") {
@@ -41,6 +71,8 @@ export function closeAddTaskModal() {
   });
 }
 
+// This function is for open the add task modal in the
+// home page
 export function openAddTaskModalHome() {
   if (projectsExist()) {
     resetAddTaskValues();
@@ -54,6 +86,8 @@ export function openAddTaskModalHome() {
   }
 }
 
+// This function is for open the add task modal in the
+// sidebar section
 export function openAddTaskModalSideBar() {
   if (projectsExist()) {
     renderProjectSelections();
@@ -67,11 +101,9 @@ export function openAddTaskModalSideBar() {
   }
 }
 
-const openProjectInputBtn = document.querySelector(".add-project-svg");
-const projectInputContainer = document.querySelector(".project-input-div");
-const cancelAddProjectBtn = document.querySelector(".cancel");
-const projectInputField = document.getElementById("project-input");
-
+// This function is for open/close the input element
+// where the user can write the project name in
+// the sidebar section
 export function showAddProjectInput() {
   openProjectInputBtn.addEventListener("click", function () {
     projectInputContainer.classList.remove("hidden");
@@ -88,11 +120,8 @@ export function showAddProjectInput() {
   });
 }
 
-const selectProjectHtml = document.getElementById("project-selection");
-const priorityDivs = document.querySelectorAll(".priority");
-let taskTitle = document.querySelector(".title");
-const taskMessage = document.getElementById("message");
-const defaultProjectSelected = document.querySelector(".default-opt");
+// This function is for checking if the user have selected
+// the project to save their task in
 function isProjectSelected() {
   if (selectProjectHtml.value === "Select Project") {
     return false;
@@ -101,8 +130,11 @@ function isProjectSelected() {
   }
 }
 
+// This variable is for saving the selected priority of the task
 let prioritySelected = undefined;
 
+// This function is for checking if the user have selected
+// the priority of the project
 function isPrioritySelected() {
   let isLegit = false;
 
@@ -116,14 +148,25 @@ function isPrioritySelected() {
   return isLegit;
 }
 
+// This function is for checking if the title of the task is
+// legit (only contains letters)
 function isTaskTitleLegit() {
-  if (taskTitle.value === "" || taskTitle.value === " ") {
+  // Regular expression to match only letters
+  const titleRegex = /^[A-Za-z]+$/;
+
+  if (!taskTitle.value.trim()) {
+    // Check if the input is empty or contains only spaces
+    return false;
+  } else if (!titleRegex.test(taskTitle.value)) {
+    // Check if the input contains non-letter characters
     return false;
   } else {
     return true;
   }
 }
 
+// This function is for activating the data-selected styling to the
+// selected priority
 function handlePriorityClick(event) {
   if (
     event.target.textContent === "Low" ||
@@ -143,24 +186,26 @@ function handlePriorityClick(event) {
   }
 }
 
+// This function is invoking the handlePriorityClick function
 export function addPriorityClickListener() {
   priorityDivs.forEach((el) => {
     el.addEventListener("click", handlePriorityClick);
   });
 }
 
+// This function is for deactivate the addPriorityClickListener function
 export function removePriorityClickListener() {
   priorityDivs.forEach((el) => {
     el.removeEventListener("click", handlePriorityClick);
   });
 }
 
-const dueDateCalender = document.getElementById("calender");
-
+// This function is for formatting the number
 function padTo2Digits(num) {
   return num.toString().padStart(2, "0");
 }
 
+// This function is for formatting the date
 function formatDate(date = new Date()) {
   return [
     date.getFullYear(),
@@ -169,6 +214,8 @@ function formatDate(date = new Date()) {
   ].join("-");
 }
 
+// This function is for update the calender in the add task modal to
+// show the current date
 export function changeCalenderValue() {
   dueDateCalender.value = formatDate();
   dueDateCalender.addEventListener("change", function () {
@@ -177,9 +224,8 @@ export function changeCalenderValue() {
   });
 }
 
-const addTaskBtn = document.querySelector(".add-task-box");
-const priorityContainer = document.querySelector(".priority-div");
-
+// This function is for saving the the project selected in the add
+// task modal
 let project = undefined;
 export function addTaskFunction() {
   // ****
@@ -192,6 +238,10 @@ export function addTaskFunction() {
   addPriorityClickListener();
   AddTaskClick();
 }
+
+// This function is for saving the new created task to the
+// localStorage and navigate the user to the right section from the
+// add task modal
 function handleAddTaskClick() {
   if (isPrioritySelected() && isProjectSelected() && isTaskTitleLegit()) {
     newTask = new TASK(
@@ -269,10 +319,12 @@ function handleAddTaskClick() {
   }
 }
 
+// This function is for invoking the handleAddTaskClick function
 function AddTaskClick() {
   addTaskBtn.addEventListener("click", handleAddTaskClick);
 }
 
+// This function is for checking if the created task already exist
 function checkForTitleDuplicate(title, dueDate, project, priority) {
   const data = getLocalStorageObject("Tasks");
   let index = data.tasks.findIndex((element) => {
@@ -291,13 +343,11 @@ function checkForTitleDuplicate(title, dueDate, project, priority) {
   }
 }
 
-const taskSectionHomePage = document.querySelector(".task-section");
-
+// This function is for rendering all task to the home page
+// in the right date / day
 export function renderTaskHomePage(date) {
   const date_1 = getDays(date);
-  // *
   taskSectionHomePage.innerHTML = "";
-
   const taskStorage = getLocalStorageObject("Tasks");
 
   for (let i = 0; i < taskStorage.tasks.length; i++) {
@@ -332,24 +382,24 @@ export function renderTaskHomePage(date) {
       `;
     }
   }
-  // ************************************
-
+  // This logic is for removing the selected task in the home page
   const remove_task_boxes = document.querySelectorAll(".remove-box");
   remove_task_boxes.forEach((el) => {
     el.addEventListener("click", addHandleRemoveTaskClick);
   });
-
-  // **************************************
 }
 
+// This function is for invoking the handleRemoveTaskClick function &
+// check which day is selected in case the user is on the home page section &
+// the renderProjectTaskNr function in case the user is on the sidebar section
 export function addHandleRemoveTaskClick(event) {
   checkWhichDayIsClicked();
   handleRemoveTaskClick(event.target);
   renderProjectTaskNr();
 }
 
-const date_containers = document.querySelectorAll(".calender-box-container");
-
+// This function is for checking which day is selected and render
+// all task due in the selected day
 export function checkWhichDayIsClicked() {
   date_containers.forEach((el) => {
     if (el.dataset.clicked === "true") {
@@ -362,6 +412,7 @@ export function checkWhichDayIsClicked() {
 
 let PROJECT_STORAGE = getLocalStorageObject("Projects");
 let TASKS_STORAGE = getLocalStorageObject("Tasks");
+// This function is for removing the selected task
 export function handleRemoveTaskClick(Element) {
   const title =
     Element.parentElement.parentElement.parentElement.firstElementChild
@@ -414,6 +465,7 @@ export function handleRemoveTaskClick(Element) {
   // ** end of function ** ↓
 }
 
+// This function is for formatting the date -> YYYY/MM/DD
 function getDays(dayNr) {
   const date = new Date();
   let month = date.getMonth() + 1;
@@ -427,6 +479,7 @@ function getDays(dayNr) {
   return nextDayStr;
 }
 
+// This function is for resetting the values in the add task modal
 function resetAddTaskValues() {
   defaultProjectSelected.setAttribute("selected", "");
   taskTitle.value = "";
@@ -437,6 +490,7 @@ function resetAddTaskValues() {
   });
 }
 
+// This function is in charge of marking the selected task as done
 export function taskDoneFunction() {
   PROJECT_STORAGE = getLocalStorageObject("Projects");
   TASKS_STORAGE = getLocalStorageObject("Tasks");
@@ -501,30 +555,31 @@ export function taskDoneFunction() {
   });
 }
 
+// This function is in charge of retrieving the wanted Object of
+// the localStorage and transforming from string to object
 export function getLocalStorageObject(keyName) {
   const data_0 = window.localStorage.getItem(`${keyName}`);
   const data = JSON.parse(data_0);
   return data;
 }
 
+// This function is in charge of pushing the wanted object to
+// the localStorage as a string
 export function pushDataToLocalStorage(keyName, object) {
   const objStr = JSON.stringify(object);
   return window.localStorage.setItem(`${keyName}`, objStr);
 }
 
-// ******
-const task_detail_section = document.querySelector(
-  ".task-detail-modal-section"
-);
-const close_detail_section_btn = document.querySelector(
-  ".close-detail-modal-box"
-);
-const sideBarperiods = document.querySelectorAll(".notis");
-
-// ******
+// These variables are for saving the values of the edit task
+// before it changes
 let editTaskTitle = undefined;
 let editTaskDue = undefined;
 let editTaskProject = undefined;
+
+// This function is in charge of the edit task logic of the app
+// With this function the user will be able to move task between
+// different project, change priority, title, due, message and save
+// it in the right project and in the right index
 export function seeTaskDetailsFunction() {
   const task_details_boxes = document.querySelectorAll(".edit-box");
   const task_detail_title = document.querySelector(".task-detail-title-p");
@@ -610,7 +665,6 @@ export function seeTaskDetailsFunction() {
         // ************
         project = selectProjectHtml.value;
         // ***
-        // ***
 
         taskTitle.value = task_detail_title.textContent;
         taskMessage.value = task_detail_message.textContent;
@@ -620,24 +674,20 @@ export function seeTaskDetailsFunction() {
         selectProjectHtml.addEventListener("change", function () {
           project = selectProjectHtml.value;
         });
-
-        // **********
-        // renderProjectSelections();
         renderSelectedProject(editTaskProject);
-
-        // *************
         addPriorityClickListener();
         addTaskBtn.addEventListener("click", handleAddTaskClickEdit);
-        // ** ↓
       });
     });
   });
+  // This logic is in charge of invoking the handleCloseEditModalClick function
   closeModalSvg.addEventListener("click", handleCloseEditModalClick);
-  //
+
+  // This logic is in charge of closing the detail modal and rendering
+  // the tasks of the project selected in the sidebar
   close_detail_section_btn.addEventListener("click", function () {
     handleAddCloseDetailSectionClick();
     const projectBoxes = document.querySelectorAll(".project-box");
-    console.log(projectBoxes);
     projectBoxes.forEach((i) => {
       if (i.attributes[2].nodeValue === "true") {
         renderProjectTasks(i.id);
@@ -647,6 +697,8 @@ export function seeTaskDetailsFunction() {
   // ************
 }
 
+// This function is in charge of closing the detail modal and
+// rendering the right UI depending on where the are was
 function handleAddCloseDetailSectionClick() {
   const task_details_boxes = document.querySelectorAll(".edit-box");
 
@@ -670,6 +722,8 @@ function handleAddCloseDetailSectionClick() {
   renderProjectTaskNr();
 }
 
+// This function is in charge of hiding the task detail section &
+// removing the eventListener on the add task button
 function handleCloseEditModalClick() {
   removePriorityClickListener();
   task_detail_section.classList.add("hidden");
@@ -677,6 +731,9 @@ function handleCloseEditModalClick() {
   addTaskBtn.removeEventListener("click", handleAddTaskClickEdit);
 }
 
+// This function is in charge of saving the edited task in the
+// right project & in the right index, & redirect the user
+// to the right place after the task has been saved/added
 function handleAddTaskClickEdit() {
   // *****************
   const task_detail_title = document.querySelector(".task-detail-title-p");

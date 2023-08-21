@@ -1,11 +1,13 @@
+// *** Import Statement **
 import { getLocalStorageObject } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { getNextDays } from "./date.js";
 import { addHandleRemoveTaskClick } from "./add-task-modal.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
 import { taskDoneFunction } from "./add-task-modal.js";
-import { id } from "date-fns/locale";
+// *****
 
+// *** DOM Selections
 const sideBarTaskContainer = document.querySelector(
   ".sideBar-display-tasks-box"
 );
@@ -13,15 +15,21 @@ const sideBar_tasks_container_heading = document.querySelector(
   ".siderBar-tasks-heading"
 );
 const closeModalSvg = document.querySelector(".close-svg");
-
-let todayCounter = 0;
-let weekCounter = 0;
-let monthCounter = 0;
-let projectTaskCounter = 0;
 const sideBar_today_task_nr = document.querySelector(".today-task-notis-nr");
 const sideBar_week_task_nr = document.querySelector(".week-task-notis-nr");
 const sideBar_month_task_nr = document.querySelector(".month-task-notis-nr");
-//
+// **
+// These variables are for saving the amount of task during
+// the different periods
+let todayCounter = 0;
+let weekCounter = 0;
+let monthCounter = 0;
+
+// This variable is for saving the amount of task in each project
+let projectTaskCounter = 0;
+
+// This function is for rendering all tasks in the
+// right period of time in the sidebar
 export function renderPeriodTasks(period) {
   let TASKS_STORAGE = getLocalStorageObject("Tasks");
   let month = new Date().getMonth() + 1;
@@ -138,12 +146,15 @@ export function renderPeriodTasks(period) {
       }
     }
   }
+  // This logic is for removing the selected task
   const remove_task_boxes = document.querySelectorAll(".remove-box");
   remove_task_boxes.forEach((el) => {
     el.addEventListener("click", addHandleRemoveTaskClick);
   });
 }
 
+// This function is for rendering the amount of task in each period of time
+// in the sidebar
 export function renderTaskNr() {
   todayCounter = 0;
   weekCounter = 0;
@@ -178,8 +189,9 @@ export function renderTaskNr() {
   sideBar_month_task_nr.textContent = monthCounter;
 }
 
+// This function is for activating the data-period styling on
+// the current clicked period in the sidebar
 const sideBarperiods = document.querySelectorAll(".notis");
-
 export function toggleIsSelectedSidebarAtrr(period) {
   sideBarperiods.forEach((el) => {
     if (el.textContent === period) {
@@ -190,6 +202,10 @@ export function toggleIsSelectedSidebarAtrr(period) {
   });
 }
 
+// This function is for rendering all tasks inside the clicked project
+// in the sidebar section && invoking all necessary functions
+// so that the user can do the same things in the clicked project
+// as in the clicked period of time
 export function ProjectSideBarShowTasks() {
   const projectsSidebarHeadings = document.querySelectorAll(".project-box");
 
@@ -204,10 +220,11 @@ export function ProjectSideBarShowTasks() {
       taskDoneFunction();
     });
   });
-  // **************************************************************************************
   renderProjectTaskNr();
 }
 
+// This function is for activating the data-project styling on the
+// clicked project in the sidebar
 export function toggleProjectSelectedSidebarAtrr(data) {
   const projectsSidebarHeadings = document.querySelectorAll(".project-box");
   projectsSidebarHeadings.forEach((el) => {
@@ -219,6 +236,8 @@ export function toggleProjectSelectedSidebarAtrr(data) {
   });
 }
 
+// This function is for rendering all tasks inside the selected
+// project in the sidebar section
 export function renderProjectTasks(data_id) {
   let PROJECT_STORAGE = getLocalStorageObject("Projects");
   sideBarTaskContainer.innerHTML = "";
@@ -278,6 +297,8 @@ export function renderProjectTasks(data_id) {
   }
 }
 
+// This function is in charge of invoking the removeTaskSideBarProject() &&
+// renderProjectTaskNr() functions
 function addRemoveTaskSideBarProject() {
   const remove_task_boxes = document.querySelectorAll(".remove-box");
 
@@ -289,6 +310,8 @@ function addRemoveTaskSideBarProject() {
   });
 }
 
+// This function is for removing the the selected task inside the selected
+// project in the sidebar section
 function removeTaskSideBarProject(element) {
   let PROJECT_STORAGE = getLocalStorageObject("Projects");
   let TASKS_STORAGE = getLocalStorageObject("Tasks");
@@ -348,6 +371,8 @@ function removeTaskSideBarProject(element) {
   }
 }
 
+// This function is for render the amount of tasks inside
+// each project in the sidebar section
 export function renderProjectTaskNr() {
   let TASKS_STORAGE = getLocalStorageObject("Tasks");
   const projectBoxes = document.querySelectorAll(".project-box");

@@ -1,7 +1,14 @@
+// *** DOM Selections
 const menuBtn = document.querySelector(".menu");
 const sideBarSection = document.querySelector(".sideBar-section");
 const closeModalSvg = document.querySelector(".close-svg");
+const sideBar_today = document.querySelector(".sideBar-today");
+const sideBar_week = document.querySelector(".sideBar-week");
+const sideBar_month = document.querySelector(".sideBar-month");
+const sideBarperiods = document.querySelectorAll(".notis");
+// *******
 
+// *** Import Statements
 import { checkWhichDayIsClicked } from "./add-task-modal.js";
 import { renderProjects } from "./storage.js";
 import { taskDoneFunction } from "./add-task-modal.js";
@@ -12,16 +19,11 @@ import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
 import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
 import { renderProjectTaskNr } from "./render-sidebar-task.js";
-
-// *******
-const sideBar_today = document.querySelector(".sideBar-today");
-const sideBar_week = document.querySelector(".sideBar-week");
-const sideBar_month = document.querySelector(".sideBar-month");
-// *******
-const sideBarperiods = document.querySelectorAll(".notis");
+// ******
 
 // This function is for showing the sideBar section and hide
-// the other sections
+// the other sections && invoking all necessary functions
+// in order for the app to work properly in the sidebar section
 export function menuSlider() {
   menuBtn.addEventListener("click", function () {
     sideBarSection.classList.toggle("slide-sideBar");

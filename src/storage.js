@@ -1,17 +1,29 @@
+// *** Import Statement ***
 import { PROJECT } from "./classes.js";
 import { removeProject } from "./remove-project.js";
 import { getLocalStorageObject } from "./add-task-modal.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
+// ******
 
+// ** DOM selections ***
 const addProjectBtn = document.querySelector(".add");
 const projectInputField = document.getElementById("project-input");
 const projectsListContainer = document.querySelector(".projects-list-box");
 const projectInputContainer = document.querySelector(".project-input-div");
 const openProjectInputBtn = document.querySelector(".add-project-svg");
 const selectProjectHtml = document.getElementById("project-selection");
+// ****
+
+// This variable is for saving the project name &&
+// this variable must be global because of various function
+// needs this variable in order to work
 let projectName = undefined;
+
+// This variable is for saving the new PROJECT class
 let projectObj;
 
+// This function is for rendering the the project names in
+// the sidebar
 export function renderProjects() {
   const data = getLocalStorageObject("Projects");
   projectsListContainer.innerHTML = ``;
@@ -51,6 +63,8 @@ export function renderProjects() {
      `;
     }
   }
+  // This logic is for active the function in charge of removing the
+  // selected task
   const removeProjectDivs = document.querySelectorAll(".remove-project-svg");
   removeProjectDivs.forEach((el) => {
     el.addEventListener("click", function () {
@@ -59,6 +73,8 @@ export function renderProjects() {
   });
 }
 
+// This function is for rendering the different project options in the
+// add task modal
 export function renderProjectSelections() {
   const data = getLocalStorageObject("Projects");
   selectProjectHtml.innerHTML = `
@@ -70,6 +86,8 @@ export function renderProjectSelections() {
   }
 }
 
+// This function is for rendering the project selected from a task that
+// the user wants to edit/change
 export function renderSelectedProject(projectName) {
   const data = getLocalStorageObject("Projects");
   selectProjectHtml.innerHTML = "";
@@ -82,6 +100,9 @@ export function renderSelectedProject(projectName) {
   }
 }
 
+// This function is in charge for saving the project name from the user in
+// the global variable projectName &&
+// adding the project to the LocalStorage
 export function projectInputListener() {
   projectInputField.addEventListener("input", function () {
     projectName = projectInputField.value;
@@ -111,7 +132,8 @@ export function projectInputListener() {
   });
 }
 
-// LocalStorage
+// This function is in charge for setting up the localStorage in the
+// correct way in order for this app to work
 export function setLocalStorage() {
   const storageObj = {
     projects: [
@@ -134,6 +156,8 @@ export function setLocalStorage() {
   }
 }
 
+// This function is for making sure that the user don't add/create multiple project with
+// the same name
 function checkProjectDuplicate(projectData) {
   let PROJECT_STORAGE = getLocalStorageObject("Projects");
 
