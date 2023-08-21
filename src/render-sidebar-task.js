@@ -4,6 +4,7 @@ import { getNextDays } from "./date.js";
 import { addHandleRemoveTaskClick } from "./add-task-modal.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
 import { taskDoneFunction } from "./add-task-modal.js";
+import { id } from "date-fns/locale";
 
 const sideBarTaskContainer = document.querySelector(
   ".sideBar-display-tasks-box"
@@ -16,6 +17,7 @@ const closeModalSvg = document.querySelector(".close-svg");
 let todayCounter = 0;
 let weekCounter = 0;
 let monthCounter = 0;
+let projectTaskCounter = 0;
 const sideBar_today_task_nr = document.querySelector(".today-task-notis-nr");
 const sideBar_week_task_nr = document.querySelector(".week-task-notis-nr");
 const sideBar_month_task_nr = document.querySelector(".month-task-notis-nr");
@@ -202,6 +204,8 @@ export function ProjectSideBarShowTasks() {
       taskDoneFunction();
     });
   });
+  // **************************************************************************************
+  renderProjectTaskNr();
 }
 
 export function toggleProjectSelectedSidebarAtrr(data) {
@@ -280,6 +284,7 @@ function addRemoveTaskSideBarProject() {
   remove_task_boxes.forEach((el) => {
     el.addEventListener("click", function () {
       removeTaskSideBarProject(el);
+      renderProjectTaskNr();
     });
   });
 }
@@ -340,5 +345,28 @@ function removeTaskSideBarProject(element) {
         renderProjectTasks("General");
       }
     });
+  }
+}
+
+export function renderProjectTaskNr() {
+  let TASKS_STORAGE = getLocalStorageObject("Tasks");
+  const projectBoxes = document.querySelectorAll(".project-box");
+
+  for (const projectBox of projectBoxes) {
+    const projectId = projectBox.id;
+    projectTaskCounter = 0;
+
+    for (const task of TASKS_STORAGE.tasks) {
+      if (task.project === projectId) {
+        projectTaskCounter++;
+      }
+    }
+
+    const taskCounterElement =
+      projectId === "General"
+        ? projectBox.lastElementChild.firstElementChild
+        : projectBox.firstElementChild.nextElementSibling.firstElementChild;
+
+    taskCounterElement.textContent = projectTaskCounter;
   }
 }

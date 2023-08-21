@@ -1,7 +1,11 @@
 import { projectsExist } from "./classes.js";
 import { renderProjectSelections } from "./storage.js";
 import { TASK } from "./classes.js";
-import { renderPeriodTasks } from "./render-sidebar-task.js";
+import {
+  renderPeriodTasks,
+  renderProjectTaskNr,
+  renderProjectTasks,
+} from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
 import { renderSelectedProject } from "./storage.js";
@@ -260,6 +264,7 @@ function handleAddTaskClick() {
       }
       renderTaskNr();
       seeTaskDetailsFunction();
+      renderProjectTaskNr();
     });
   }
 }
@@ -340,6 +345,7 @@ export function renderTaskHomePage(date) {
 export function addHandleRemoveTaskClick(event) {
   checkWhichDayIsClicked();
   handleRemoveTaskClick(event.target);
+  renderProjectTaskNr();
 }
 
 const date_containers = document.querySelectorAll(".calender-box-container");
@@ -599,8 +605,6 @@ export function seeTaskDetailsFunction() {
           taskArrayIndex
         ].message;
 
-      console.log(selectProjectHtml);
-
       edit_task_btn.addEventListener("click", function () {
         addTaskModalSection.classList.remove("hidden");
         // ************
@@ -630,10 +634,16 @@ export function seeTaskDetailsFunction() {
   });
   closeModalSvg.addEventListener("click", handleCloseEditModalClick);
   //
-  close_detail_section_btn.addEventListener(
-    "click",
-    handleAddCloseDetailSectionClick
-  );
+  close_detail_section_btn.addEventListener("click", function () {
+    handleAddCloseDetailSectionClick();
+    const projectBoxes = document.querySelectorAll(".project-box");
+    console.log(projectBoxes);
+    projectBoxes.forEach((i) => {
+      if (i.attributes[2].nodeValue === "true") {
+        renderProjectTasks(i.id);
+      }
+    });
+  });
   // ************
 }
 
@@ -657,13 +667,13 @@ function handleAddCloseDetailSectionClick() {
     element.firstElementChild.checked = false;
   });
   taskDoneFunction();
+  renderProjectTaskNr();
 }
 
 function handleCloseEditModalClick() {
   removePriorityClickListener();
   task_detail_section.classList.add("hidden");
   overlay.classList = "overlay hidden";
-
   addTaskBtn.removeEventListener("click", handleAddTaskClickEdit);
 }
 

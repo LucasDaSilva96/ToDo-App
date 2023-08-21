@@ -11,6 +11,7 @@ import { renderTaskNr } from "./render-sidebar-task.js";
 import { toggleIsSelectedSidebarAtrr } from "./render-sidebar-task.js";
 import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
 import { toggleProjectSelectedSidebarAtrr } from "./render-sidebar-task.js";
+import { renderProjectTaskNr } from "./render-sidebar-task.js";
 
 // *******
 const sideBar_today = document.querySelector(".sideBar-today");
@@ -74,6 +75,7 @@ export function menuSlider() {
     // ***
     setTimeout(function () {
       ProjectSideBarShowTasks();
+      renderProjectTaskNr();
     }, 100);
   });
 }

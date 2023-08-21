@@ -1,7 +1,10 @@
 import { getLocalStorageObject, taskDoneFunction } from "./add-task-modal.js";
 import { pushDataToLocalStorage } from "./add-task-modal.js";
 import { renderProjects } from "./storage.js";
-import { ProjectSideBarShowTasks } from "./render-sidebar-task.js";
+import {
+  ProjectSideBarShowTasks,
+  renderProjectTaskNr,
+} from "./render-sidebar-task.js";
 import { renderTaskNr } from "./render-sidebar-task.js";
 import { seeTaskDetailsFunction } from "./add-task-modal.js";
 
@@ -33,5 +36,6 @@ export function removeProject(event) {
     seeTaskDetailsFunction();
     ProjectSideBarShowTasks();
     taskDoneFunction();
+    renderProjectTaskNr();
   }
 }

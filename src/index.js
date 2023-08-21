@@ -106,7 +106,6 @@ function removeDoneTaskFromLocalStorage() {
         y >= 0;
         y--
       ) {
-        console.log(PROJECT_STORAGE.projects[x].project_tasks[y].done);
         if (PROJECT_STORAGE.projects[x].project_tasks[y].done === true) {
           PROJECT_STORAGE.projects[x].project_tasks.splice(y, 1);
         }
