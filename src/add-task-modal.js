@@ -351,6 +351,8 @@ export function renderTaskHomePage(date) {
   const taskStorage = getLocalStorageObject("Tasks");
 
   for (let i = 0; i < taskStorage.tasks.length; i++) {
+    console.log(taskStorage.tasks[i].due);
+    console.log(date_1);
     if (taskStorage.tasks[i].due === date_1) {
       taskSectionHomePage.innerHTML += `
        <div class="task-box ${taskStorage.tasks[i].priority}-priority ${
@@ -475,7 +477,11 @@ function getDays(dayNr) {
   const nextDay = new Date(date);
   nextDay.setDate(date.getDate() + dayNr);
   const nextDayStrArray = `${nextDay}`.split(" ");
-  const nextDayStr = `${nextDayStrArray[3]}-${month}-${date.getDate() + dayNr}`;
+  let day = date.getDate() + dayNr;
+  if (day <= 9) {
+    day = `0${day}`;
+  }
+  const nextDayStr = `${nextDayStrArray[3]}-${month}-${day}`;
   return nextDayStr;
 }
 

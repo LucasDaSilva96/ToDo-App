@@ -42,8 +42,6 @@ setInterval(function () {
   greetingFunction();
 }, 600000);
 
-setCalenderDates();
-
 showAddProjectInput();
 
 projectInputListener();
@@ -53,6 +51,7 @@ projectInputListener();
 window.addEventListener("DOMContentLoaded", function () {
   setLocalStorage();
   removeDoneTaskFromLocalStorage();
+  setCalenderDates();
   changeCalenderValue();
   renderTaskHomePage(0);
   // EDIT LATER ↓
@@ -78,7 +77,7 @@ openAddTaskModalSidebarBtn.addEventListener("click", function () {
 const date_containers = document.querySelectorAll(".calender-box-container");
 date_containers.forEach((el) => {
   el.addEventListener("click", function () {
-    day_nr = Number(el.children[0].childNodes[1].classList[0].split("-")[1]);
+    day_nr = Number(el.children[0].firstChild.className.split("-")[1]);
     return renderTaskHomePage(day_nr);
   });
 });
